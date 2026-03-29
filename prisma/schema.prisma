@@ -1,0 +1,316 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum PresetVisibility {
+  PRIVATE
+  TEAM
+  PUBLIC
+}
+
+enum SceneProjectStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AssetImportStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+  BLOCKED
+}
+
+enum AssetImportSourceType {
+  MANUAL_UPLOAD
+  LIBRARY_SYNC
+  CONVERSION_PIPELINE
+}
+
+enum CharacterWorkflowStatus {
+  UPLOADED
+  ANALYZED
+  FRAGMENTED
+  READY
+  ERROR
+}
+
+enum AuditEntityType {
+  USER
+  SESSION
+  CHARACTER
+  CHARACTER_PRESET
+  CHARACTER_PART
+  SCENE_PROJECT
+  ASSET_IMPORT
+  ASSET_FAVORITE
+  UPLOAD
+  EXPORT
+  SYSTEM
+}
+
+enum AuditAction {
+  CREATED
+  UPDATED
+  DELETED
+  FAVORITED
+  UNFAVORITED
+  IMPORT_REQUESTED
+  IMPORT_COMPLETED
+  IMPORT_FAILED
+  LOGIN
+  LOGOUT
+  SYSTEM_EVENT
+}
+
+model User {
+  id               String           @id @default(cuid())
+  email            String           @unique
+  name             String?
+  role             UserRole         @default(VIEWER)
+  sessions         Session[]
+  characters       Character[]
+  characterPresets CharacterPreset[]
+  uploads          Upload[]
+  sceneProjects    SceneProject[]
+  assetFavorites   AssetFavorite[]
+  characterExports CharacterExport[]
+  requestedImports AssetImportJob[] @relation("RequestedImports")
+  auditLogs        AuditLog[]       @relation("AuditActor")
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model Session {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionToken String    @unique
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model CharacterPreset {
+  id           String           @id @default(cuid())
+  userId       String?
+  user         User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionKey   String?
+  version      String
+  name         String
+  description  String?
+  baseBodyId   String
+  parts        Json
+  colors       Json
+  tags         Json?
+  metadata     Json?
+  thumbnailUrl String?
+  visibility   PresetVisibility @default(PRIVATE)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([sessionKey])
+  @@index([visibility])
+}
+
+model Character {
+  id                  String                  @id @default(cuid())
+  userId              String?
+  user                User?                   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionKey          String?
+  name                String
+  slug                String
+  sourceFormat        String
+  sourceFileName      String
+  sourceMimeType      String?
+  sourceFilePath      String
+  storageRoot         String
+  fileSize            Int
+  previewImagePath    String?
+  workflowStatus      CharacterWorkflowStatus @default(UPLOADED)
+  meshCount           Int                     @default(0)
+  materialCount       Int                     @default(0)
+  hasRig              Boolean                 @default(false)
+  hasAnimations       Boolean                 @default(false)
+  analysis            Json?
+  fragmentationSchema Json?
+  connectionSchema    Json?
+  unityMetadata       Json?
+  parts               CharacterPart[]
+  uploads             Upload[]
+  exports             CharacterExport[]
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+
+  @@index([userId])
+  @@index([sessionKey])
+  @@index([workflowStatus])
+  @@unique([sessionKey, slug])
+}
+
+model CharacterPart {
+  id               String    @id @default(cuid())
+  characterId      String
+  character        Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  partKey          String
+  name             String
+  category         String
+  assignmentMode   String
+  sourceMeshNames  Json
+  filePath         String
+  fileFormat       String
+  materials        Json?
+  textures         Json?
+  hasRig           Boolean   @default(false)
+  usedBones        Json?
+  pivot            Json?
+  scale            Json?
+  boundingBox      Json?
+  connectionPoints Json?
+  metadata         Json?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([characterId])
+  @@index([category])
+  @@unique([characterId, partKey])
+}
+
+model Upload {
+  id           String     @id @default(cuid())
+  userId       String?
+  user         User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionKey   String?
+  characterId  String?
+  character    Character? @relation(fields: [characterId], references: [id], onDelete: SetNull)
+  originalName String
+  format       String
+  mimeType     String?
+  size         Int
+  storagePath  String
+  metadata     Json?
+  createdAt    DateTime   @default(now())
+
+  @@index([userId])
+  @@index([sessionKey])
+  @@index([characterId])
+}
+
+model AssetFavorite {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionKey  String?
+  assetId     String
+  category    String
+  subcategory String?
+  note        String?
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, assetId])
+  @@unique([sessionKey, assetId])
+  @@index([userId])
+  @@index([sessionKey])
+  @@index([category])
+}
+
+model SceneProject {
+  id              String             @id @default(cuid())
+  userId          String?
+  user            User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionKey      String?
+  name            String
+  description     String?
+  status          SceneProjectStatus @default(DRAFT)
+  engineVersion   String?
+  sceneData       Json
+  previewImageUrl String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([sessionKey])
+  @@index([status])
+}
+
+model CharacterExport {
+  id            String     @id @default(cuid())
+  userId        String?
+  user          User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionKey    String?
+  characterId   String
+  character     Character  @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  exportMode    String
+  format        String
+  includedParts Json?
+  storagePath   String?
+  metadata      Json?
+  createdAt     DateTime   @default(now())
+
+  @@index([userId])
+  @@index([sessionKey])
+  @@index([characterId])
+  @@index([exportMode])
+}
+
+model AssetImportJob {
+  id                String                @id @default(cuid())
+  requestedByUserId String?
+  requestedByUser   User?                 @relation("RequestedImports", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  sourceType        AssetImportSourceType @default(MANUAL_UPLOAD)
+  status            AssetImportStatus     @default(PENDING)
+  assetId           String?
+  category          String?
+  sourcePath        String?
+  registryPath      String?
+  runtimeEntry      String?
+  metadata          Json?
+  result            Json?
+  errorMessage      String?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  completedAt       DateTime?
+
+  @@index([requestedByUserId])
+  @@index([status])
+  @@index([category])
+}
+
+model AuditLog {
+  id         String          @id @default(cuid())
+  actorUserId String?
+  actorUser  User?           @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+  action     AuditAction
+  entityType AuditEntityType
+  entityId   String?
+  requestId  String?
+  ipAddress  String?
+  userAgent  String?
+  metadata   Json?
+  createdAt  DateTime        @default(now())
+
+  @@index([actorUserId])
+  @@index([entityType, entityId])
+  @@index([action])
+  @@index([createdAt])
+}

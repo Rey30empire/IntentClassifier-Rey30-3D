@@ -1,0 +1,32 @@
+{
+  "asset_id": "princess_peach",
+  "asset_path": "01_Personajes/princess_peach",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/princess_peach/geometry/glb/princess+peach+3d+model.glb",
+  "duplicate_variants_detected": [
+    "01_Personajes/princess_peach/source_archives/princess+peach+3d+model__from_root.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/princess_peach/source_archives/princess+peach+3d+model__from_root.zip",
+      "01_Personajes/princess_peach/source_archives/princess+peach+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/princess_peach/geometry/glb/princess+peach+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "01_Personajes/princess_peach/geometry/stl/princess+peach+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

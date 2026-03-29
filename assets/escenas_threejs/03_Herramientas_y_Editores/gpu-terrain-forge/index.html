@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGPU Terrain - GPU Compute</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 20%, #203043 0%, #0b1018 45%, #070b12 100%);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace;
+      }
+
+      #app {
+        width: 100%;
+        height: 100%;
+      }
+
+      .hud {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        z-index: 10;
+        padding: 6px 12px;
+        border-radius: 20px;
+        color: rgba(255,255,255,0.72);
+        background: rgba(0, 0, 0, 0.32);
+        backdrop-filter: blur(12px);
+        font-size: 11px;
+        line-height: 1.4;
+        letter-spacing: 0.03em;
+        pointer-events: none;
+      }
+
+      .hud .gpu-badge {
+        display: inline-block;
+        background: rgba(100,220,140,0.18);
+        color: rgba(140,255,180,0.9);
+        padding: 1px 6px;
+        border-radius: 8px;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .panel-toggle {
+        position: fixed;
+        top: 14px;
+        right: 14px;
+        z-index: 20;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(12px);
+        color: rgba(255,255,255,0.8);
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s, transform 0.25s;
+      }
+
+      .panel-toggle:hover {
+        background: rgba(0, 0, 0, 0.52);
+        transform: scale(1.08);
+      }
+
+      .panel-toggle.open {
+        transform: rotate(45deg);
+      }
+
+      .panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 15;
+        width: 280px;
+        height: 100vh;
+        overflow: hidden;
+        padding: 0;
+        border: none;
+        border-left: 1px solid rgba(255,255,255,0.06);
+        border-radius: 0;
+        background: rgba(8, 10, 16, 0.82);
+        backdrop-filter: blur(24px);
+        color: #d6dfef;
+        font-size: 11.5px;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.15, 1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .panel.visible {
+        transform: translateX(0);
+      }
+
+      .panel-header {
+        padding: 16px 16px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        flex-shrink: 0;
+      }
+
+      .panel-header h2 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.88);
+        text-transform: uppercase;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 0;
+        margin-top: 10px;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 7px 0;
+        border: none;
+        background: transparent;
+        color: rgba(255,255,255,0.38);
+        font-family: inherit;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      .tab-btn:hover {
+        color: rgba(255,255,255,0.6);
+      }
+
+      .tab-btn.active {
+        color: rgba(255,255,255,0.9);
+      }
+
+      .tab-btn.active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 15%;
+        width: 70%;
+        height: 2px;
+        background: rgba(255,255,255,0.7);
+        border-radius: 2px;
+      }
+
+      .panel-body {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 12px 16px 20px;
+      }
+
+      .panel-body::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .panel-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .panel-body::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.1);
+        border-radius: 4px;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .section-label {
+        margin: 16px 0 8px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+      }
+
+      .section-label:first-child {
+        margin-top: 2px;
+      }
+
+      .ctrl {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 8px 0;
+      }
+
+      .ctrl-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .ctrl label {
+        color: rgba(255,255,255,0.52);
+        font-size: 11px;
+      }
+
+      .val {
+        text-align: right;
+        color: rgba(255,255,255,0.78);
+        font-variant-numeric: tabular-nums;
+        font-size: 11px;
+        min-width: 42px;
+      }
+
+      .ctrl input[type='range'] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 4px;
+        border-radius: 4px;
+        background: rgba(255,255,255,0.08);
+        outline: none;
+        cursor: pointer;
+      }
+
+      .ctrl input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.82);
+        border: none;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+        transition: transform 0.15s;
+      }
+
+      .ctrl input[type='range']::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
+
+      .ctrl input[type='range']::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.82);
+        border: none;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+      }
+
+      .ctrl select {
+        width: 100%;
+        background: rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.78);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 6px;
+        padding: 5px 8px;
+        font-family: inherit;
+        font-size: 11px;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .ctrl select:hover {
+        border-color: rgba(255,255,255,0.22);
+      }
+
+      .toggle-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 8px 0;
+      }
+
+      .toggle-row label {
+        color: rgba(255,255,255,0.52);
+        font-size: 11px;
+      }
+
+      .toggle-switch {
+        position: relative;
+        width: 36px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-track {
+        position: absolute;
+        inset: 0;
+        background: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        transition: background 0.25s;
+      }
+
+      .toggle-track::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.55);
+        transition: transform 0.25s, background 0.25s;
+      }
+
+      .toggle-switch input:checked + .toggle-track {
+        background: rgba(255,255,255,0.28);
+      }
+
+      .toggle-switch input:checked + .toggle-track::after {
+        transform: translateX(16px);
+        background: rgba(255,255,255,0.9);
+      }
+
+      .subtle {
+        color: rgba(255,255,255,0.25);
+        font-size: 10px;
+        line-height: 1.5;
+        margin-top: 14px;
+      }
+
+      .error {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        color: #e9f0ff;
+        text-align: center;
+        font-size: 15px;
+      }
+
+      .error a {
+        color: #9dc1ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hud">WebGPU terrain &middot; drag rotate &middot; scroll zoom <span class="gpu-badge">GPU COMPUTE</span></div>
+    <button class="panel-toggle" id="panelToggle">⚙</button>
+    <div class="panel" id="panel">
+      <div class="panel-header">
+        <h2>Controls</h2>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="terrain">Terrain</button>
+          <button class="tab-btn" data-tab="render">Render</button>
+          <button class="tab-btn" data-tab="atmosphere">Atmosphere</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="tab-content active" id="tab-terrain"></div>
+        <div class="tab-content" id="tab-render"></div>
+        <div class="tab-content" id="tab-atmosphere"></div>
+      </div>
+    </div>
+    <div id="app"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js",
+          "three/webgpu": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.webgpu.js",
+          "three/tsl": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.tsl.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+      if (!('gpu' in navigator)) {
+        document.body.innerHTML = `
+          <div class="error">
+            <div>
+              <h2>WebGPU is not available in this browser.</h2>
+              <p>Try recent Chrome/Edge with WebGPU enabled.</p>
+            </div>
+          </div>`;
+        throw new Error('WebGPU not supported');
+      }
+
+      import * as THREE from 'three/webgpu';
+      import {
+        uniform, storage, instanceIndex, float, int, vec3, vec4,
+        If, Loop, Break, Fn, mod,
+        sin, cos, floor, fract, abs, pow, exp, max, min, mix, clamp, smoothstep
+      } from 'three/tsl';
+      import { StorageBufferAttribute } from 'three/webgpu';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+      const app = document.getElementById('app');
+      const panel = document.getElementById('panel');
+      const panelToggle = document.getElementById('panelToggle');
+      const tabTerrain = document.getElementById('tab-terrain');
+      const tabRender = document.getElementById('tab-render');
+      const tabAtmosphere = document.getElementById('tab-atmosphere');
+
+      panelToggle.addEventListener('click', () => {
+        panel.classList.toggle('visible');
+        panelToggle.classList.toggle('open');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+      });
+
+      const params = {
+        scale: 0.05,
+        octaves: 9,
+        persistence: 0.5,
+        lacunarity: 2.0,
+        height: 18,
+        flatness: 3.4,
+        seed: Math.floor(Math.random() * 501),
+        dropoff: false,
+        scatterDensity: 0.003,
+        scatterHeightFalloff: 0.067,
+        extinctionDensity: 0.0035,
+        extinctionHeightFalloff: 0.117,
+        terrainResolution: 1024,
+        mieStrength: 0.46,
+        waterLevel: 1.2,
+        sunAzimuth: 0.3,
+        sunElevation: 0.45,
+        daySpeed: 0.06,
+      };
+
+      // Uniforms for GPU compute
+      const uScale = uniform(params.scale);
+      const uOctaves = uniform(params.octaves);
+      const uPersistence = uniform(params.persistence);
+      const uLacunarity = uniform(params.lacunarity);
+      const uHeight = uniform(params.height);
+      const uFlatness = uniform(params.flatness);
+      const uSeed = uniform(params.seed);
+      const uDropoff = uniform(params.dropoff ? 1.0 : 0.0);
+      const uSegments = uniform(params.terrainResolution);
+      const uSize = uniform(160.0);
+
+      const renderer = new THREE.WebGPURenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.25));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.78;
+      app.appendChild(renderer.domElement);
+
+      await renderer.init();
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('#d7c8cf');
+      scene.fog = new THREE.FogExp2('#b4897c', params.extinctionDensity);
+
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 700);
+      camera.position.set(38, 24, 34);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.target.set(0, 4, 0);
+      controls.maxPolarAngle = Math.PI * 0.47;
+      controls.minDistance = 10;
+      controls.maxDistance = 120;
+
+      const hemi = new THREE.HemisphereLight('#a8cfff', '#3f2f22', 0.75);
+      scene.add(hemi);
+
+      const dir = new THREE.DirectionalLight('#fff7e8', 2.2);
+      dir.position.set(52, 72, 22);
+      dir.castShadow = true;
+
+      // Sun visual sphere
+      const sunGeo = new THREE.SphereGeometry(6, 32, 32);
+      const sunMat = new THREE.MeshBasicMaterial({ color: '#fffae0', fog: false });
+      const sunMesh = new THREE.Mesh(sunGeo, sunMat);
+      scene.add(sunMesh);
+
+      // Sun glow sprite
+      const glowCanvas = document.createElement('canvas');
+      glowCanvas.width = 256;
+      glowCanvas.height = 256;
+      const glowCtx = glowCanvas.getContext('2d');
+      const gradient = glowCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
+      gradient.addColorStop(0, 'rgba(255,248,220,0.9)');
+      gradient.addColorStop(0.15, 'rgba(255,230,180,0.5)');
+      gradient.addColorStop(0.4, 'rgba(255,200,140,0.15)');
+      gradient.addColorStop(1, 'rgba(255,180,120,0)');
+      glowCtx.fillStyle = gradient;
+      glowCtx.fillRect(0, 0, 256, 256);
+      const glowTexture = new THREE.CanvasTexture(glowCanvas);
+      const glowMat = new THREE.SpriteMaterial({ map: glowTexture, transparent: true, opacity: 0.7, fog: false, depthWrite: false, blending: THREE.AdditiveBlending });
+      const sunGlow = new THREE.Sprite(glowMat);
+      sunGlow.scale.set(60, 60, 1);
+      scene.add(sunGlow);
+
+      let waterMatRef = null;
+
+      function updateSunPosition() {
+        const azimuth = params.sunAzimuth * Math.PI * 2;
+        const elevation = params.sunElevation * Math.PI * 0.5;
+        const dist = 85;
+        const skyDist = 380;
+
+        // Directional light position
+        dir.position.set(
+          Math.cos(azimuth) * Math.cos(elevation) * dist,
+          Math.sin(elevation) * dist,
+          Math.sin(azimuth) * Math.cos(elevation) * dist
+        );
+
+        // Sun mesh position (on sky sphere)
+        sunMesh.position.set(
+          Math.cos(azimuth) * Math.cos(elevation) * skyDist,
+          Math.sin(elevation) * skyDist,
+          Math.sin(azimuth) * Math.cos(elevation) * skyDist
+        );
+        sunGlow.position.copy(sunMesh.position);
+
+        // Sun color based on elevation — warm golden at low, cool white at high noon
+        const sunHeight01 = params.sunElevation;
+        const sunColor = new THREE.Color();
+        const dawnColor = new THREE.Color('#ff6622');
+        const goldenColor = new THREE.Color('#ffaa44');
+        const noonColor = new THREE.Color('#ffeedd');
+
+        if (sunHeight01 < 0.3) {
+          sunColor.lerpColors(dawnColor, goldenColor, sunHeight01 / 0.3);
+        } else {
+          sunColor.lerpColors(goldenColor, noonColor, (sunHeight01 - 0.3) / 0.7);
+        }
+        dir.color.copy(sunColor);
+        sunMat.color.lerpColors(new THREE.Color('#ffaa33'), new THREE.Color('#fffae0'), sunHeight01);
+
+        // Intensity based on elevation — dimmer at dawn, brighter at noon
+        dir.intensity = 0.6 + sunHeight01 * 2.4;
+        glowMat.opacity = 0.4 + sunHeight01 * 0.4;
+        sunMesh.scale.setScalar(1.0 + (1.0 - sunHeight01) * 0.5);
+
+        // Hemisphere light color temperature shift
+        const hemiSkyDawn = new THREE.Color('#cc8866');
+        const hemiSkyNoon = new THREE.Color('#a8cfff');
+        const hemiGroundDawn = new THREE.Color('#5a3322');
+        const hemiGroundNoon = new THREE.Color('#3f2f22');
+        hemi.color.lerpColors(hemiSkyDawn, hemiSkyNoon, Math.pow(sunHeight01, 0.6));
+        hemi.groundColor.lerpColors(hemiGroundDawn, hemiGroundNoon, sunHeight01);
+
+        // Water color temperature — only update if waterMat exists
+        if (waterMatRef) {
+          const waterDawnColor = new THREE.Color('#4a3e2a');
+          const waterNoonColor = new THREE.Color('#1a4e5e');
+          const waterSpecDawn = new THREE.Color('#ffe0a0');
+          const waterSpecNoon = new THREE.Color('#fff8e0');
+          const attenDawn = new THREE.Color('#3a2a1a');
+          const attenNoon = new THREE.Color('#0a4a5a');
+          waterMatRef.color.lerpColors(waterDawnColor, waterNoonColor, Math.pow(sunHeight01, 0.5));
+          waterMatRef.specularColor.lerpColors(waterSpecDawn, waterSpecNoon, sunHeight01);
+          waterMatRef.attenuationColor.lerpColors(attenDawn, attenNoon, Math.pow(sunHeight01, 0.5));
+          waterMatRef.roughness = 0.03 + (1.0 - sunHeight01) * 0.08;
+          waterMatRef.opacity = 0.72 + sunHeight01 * 0.12;
+          waterMatRef.transmission = 0.88 + sunHeight01 * 0.07;
+          waterMatRef.thickness = 3.5 + sunHeight01 * 2.0;
+        }
+      }
+
+      updateSunPosition();
+      dir.shadow.mapSize.set(1024, 1024);
+      dir.shadow.camera.near = 10;
+      dir.shadow.camera.far = 180;
+      dir.shadow.camera.left = -65;
+      dir.shadow.camera.right = 65;
+      dir.shadow.camera.top = 65;
+      dir.shadow.camera.bottom = -65;
+      dir.shadow.bias = -0.00008;
+      dir.shadow.normalBias = 0.35;
+      scene.add(dir);
+
+      // ========== GPU COMPUTE TERRAIN ==========
+
+      // TSL hash function
+      const hash2D_tsl = Fn(([x_in, y_in, seed_in]) => {
+        const x = float(x_in);
+        const y = float(y_in);
+        const s = float(seed_in);
+        const val = sin(x.mul(127.1).add(y.mul(311.7)).add(s.mul(97.13))).mul(43758.5453123);
+        return fract(val);
+      });
+
+      // TSL fade
+      const fade_tsl = Fn(([t_in]) => {
+        const t = float(t_in);
+        return t.mul(t).mul(float(3.0).sub(t.mul(2.0)));
+      });
+
+      // TSL value noise
+      const valueNoise_tsl = Fn(([x_in, y_in, seed_in]) => {
+        const x = float(x_in);
+        const y = float(y_in);
+        const s = float(seed_in);
+        const x0 = floor(x);
+        const y0 = floor(y);
+        const x1 = x0.add(1.0);
+        const y1 = y0.add(1.0);
+        const sx = fade_tsl(x.sub(x0));
+        const sy = fade_tsl(y.sub(y0));
+        const n00 = hash2D_tsl(x0, y0, s);
+        const n10 = hash2D_tsl(x1, y0, s);
+        const n01 = hash2D_tsl(x0, y1, s);
+        const n11 = hash2D_tsl(x1, y1, s);
+        const ix0 = mix(n00, n10, sx);
+        const ix1 = mix(n01, n11, sx);
+        return mix(ix0, ix1, sy);
+      });
+
+      // TSL fbm — unrolled with a loop
+      const fbm_tsl = Fn(([x_in, y_in, octaves_in, persistence_in, lacunarity_in, seed_in]) => {
+        const x = float(x_in);
+        const y = float(y_in);
+        const octaves = int(octaves_in);
+        const persistence = float(persistence_in);
+        const lacunarity = float(lacunarity_in);
+        const seed = float(seed_in);
+
+        const sum = float(0.0).toVar();
+        const amp = float(0.5).toVar();
+        const freq = float(1.0).toVar();
+        const i = int(0).toVar();
+
+        Loop(12, () => {
+          If(i.greaterThanEqual(octaves), () => { Break(); });
+          const nv = valueNoise_tsl(x.mul(freq), y.mul(freq), seed.add(float(i).mul(17.0)));
+          sum.addAssign(nv.mul(amp));
+          amp.mulAssign(persistence);
+          freq.mulAssign(lacunarity);
+          i.addAssign(1);
+        });
+
+        return sum;
+      });
+
+      // TSL smooth01
+      const smooth01_tsl = Fn(([t_in]) => {
+        const t = clamp(float(t_in), 0.0, 1.0);
+        return t.mul(t).mul(float(3.0).sub(t.mul(2.0)));
+      });
+
+      // Build terrain with GPU compute
+      let terrain = null;
+      let posBuffer = null;
+      let colorBuffer = null;
+      let computeHeights = null;
+      let computeNormals = null;
+      let computeColors = null;
+      let normalBuffer = null;
+      let terrainGeo = null;
+      let terrainDirty = false;
+      let rebuildQueued = false;
+      let needsFullRebuild = true;
+
+      function createTerrainBuffers(segments) {
+        const count = (segments + 1) * (segments + 1);
+        const size = 160;
+
+        // Create plane geometry for index buffer
+        terrainGeo = new THREE.PlaneGeometry(size, size, segments, segments);
+        terrainGeo.rotateX(-Math.PI / 2);
+
+        // Create storage buffers
+        const posArray = new Float32Array(count * 3);
+        const basePos = terrainGeo.attributes.position.array;
+        posArray.set(basePos);
+
+        posBuffer = new StorageBufferAttribute(posArray, 3);
+        colorBuffer = new StorageBufferAttribute(new Float32Array(count * 3), 3);
+        normalBuffer = new StorageBufferAttribute(new Float32Array(count * 3), 3);
+
+        const posStorage = storage(posBuffer, 'vec3', count);
+        const colorStorage = storage(colorBuffer, 'vec3', count);
+        const normalStorage = storage(normalBuffer, 'vec3', count);
+
+        // Height compute kernel
+        computeHeights = Fn(() => {
+          const idx = instanceIndex;
+          const pos = posStorage.element(idx);
+          const x = pos.x;
+          const z = pos.z;
+
+          const scl = uScale;
+          const ridgeScale = scl.mul(0.48);
+          const detailScale = scl.mul(2.6);
+          const detailOctaves = max(int(2), int(float(uOctaves).mul(0.6).add(0.5)));
+          const seed = uSeed;
+          const heightMul = uHeight;
+
+          const h = fbm_tsl(x.mul(scl), z.mul(scl), uOctaves, uPersistence, uLacunarity, seed);
+          const ridgeNoise = valueNoise_tsl(x.mul(ridgeScale), z.mul(ridgeScale), seed.add(11.0));
+          const ridge = float(1.0).sub(abs(ridgeNoise.mul(2.0).sub(1.0)));
+          const detail = fbm_tsl(x.mul(detailScale), z.mul(detailScale), detailOctaves, uPersistence, uLacunarity, seed.add(23.0));
+
+          const y = float(0.0).toVar();
+          y.assign(h.mul(heightMul));
+          y.addAssign(pow(ridge, float(3.2)).mul(9.5));
+          y.addAssign(detail.sub(0.5).mul(1.8));
+          y.subAssign(uFlatness);
+
+          // Dropoff
+          const halfSize = uSize.mul(0.5);
+          const dx = x.div(halfSize);
+          const dz = z.div(halfSize);
+          const d2 = dx.mul(dx).add(dz.mul(dz));
+          const dropAmt = max(float(0.0), d2.mul(24.0).sub(4.0)).mul(uDropoff);
+          y.subAssign(dropAmt);
+
+          pos.y.assign(y);
+        })().compute(count);
+
+        // Normal compute kernel (central differences)
+        computeNormals = Fn(() => {
+          const idx = instanceIndex;
+          const segs = int(uSegments);
+          const segsP1 = segs.add(1);
+          const row = idx.div(segsP1);
+          const col = mod(int(idx), segsP1);
+
+          const getY = Fn(([r, c]) => {
+            const ri = clamp(int(r), 0, segs);
+            const ci = clamp(int(c), 0, segs);
+            return posStorage.element(ri.mul(segsP1).add(ci)).y;
+          });
+
+          const cellSize = uSize.div(float(segs));
+          const hl = getY(row, col.sub(1));
+          const hr = getY(row, col.add(1));
+          const hd = getY(row.sub(1), col);
+          const hu = getY(row.add(1), col);
+
+          const nx = hl.sub(hr);
+          const nz = hd.sub(hu);
+          const ny = cellSize.mul(2.0);
+          const len = nx.mul(nx).add(ny.mul(ny)).add(nz.mul(nz)).sqrt();
+
+          normalStorage.element(idx).assign(vec3(nx.div(len), ny.div(len), nz.div(len)));
+        })().compute(count);
+
+        // Color compute kernel
+        computeColors = Fn(() => {
+          const idx = instanceIndex;
+          const pos = posStorage.element(idx);
+          const norm = normalStorage.element(idx);
+          const x = pos.x;
+          const y = pos.y;
+          const z = pos.z;
+          const up = norm.y;
+
+          const scl = uScale;
+          const heightMul = uHeight;
+          const flat = uFlatness;
+          const seed = uSeed;
+
+          const heightScale = heightMul.mul(1.25);
+          const h01 = smooth01_tsl(y.add(flat).div(heightScale));
+          const slope01 = float(1.0).sub(clamp(up, 0.0, 1.0));
+          const rockMask = smooth01_tsl(slope01.sub(0.18).div(0.58));
+          const snowStart = heightMul.mul(0.62);
+          const snowRange = heightMul.mul(0.36);
+          const snowMask = smooth01_tsl(y.sub(snowStart).div(snowRange));
+          const lowStart = heightMul.mul(0.16);
+          const lowRange = heightMul.mul(0.32);
+          const lowAltMask = float(1.0).sub(smooth01_tsl(y.add(flat).sub(lowStart).div(lowRange)));
+
+          const macro = valueNoise_tsl(x.mul(scl).mul(1.6), z.mul(scl).mul(1.6), seed.add(101.0));
+          const micro = valueNoise_tsl(x.mul(scl).mul(8.0), z.mul(scl).mul(8.0), seed.add(179.0));
+          const moisture = valueNoise_tsl(x.mul(scl).mul(3.4), z.mul(scl).mul(3.4), seed.add(251.0));
+          const vegetation = max(float(0.0), float(1.0).sub(rockMask.mul(1.25)).sub(snowMask.mul(1.3)));
+
+          // Color constants
+          const dirt = vec3(0.2267, 0.2031, 0.1843);
+          const grass = vec3(0.2667, 0.3725, 0.2353);
+          const lowG = vec3(0.2039, 0.3255, 0.1569);
+          const meadow = vec3(0.2588, 0.4, 0.2);
+          const stone = vec3(0.3373, 0.3804, 0.4824);
+          const snow = vec3(0.8314, 0.8706, 0.9412);
+
+          const grassT = h01.mul(0.95).add(macro.mul(0.05));
+          const col = vec3(0.0, 0.0, 0.0).toVar();
+          col.assign(mix(dirt, grass, grassT));
+
+          const lushMask = lowAltMask.mul(vegetation).mul(float(0.74).add(moisture.mul(0.26)));
+          col.assign(mix(col, lowG, lushMask.mul(0.82)));
+          col.assign(mix(col, meadow, lushMask.mul(micro).mul(0.28)));
+          col.assign(mix(col, stone, rockMask.mul(0.9)));
+          col.assign(mix(col, snow, snowMask));
+
+          const greenTint = float(0.88).add(vegetation.mul(float(0.1).add(micro.mul(0.06)))).add(lowAltMask.mul(0.04));
+          const rockTint = float(0.9).add(float(1.0).sub(vegetation).mul(macro.mul(0.16)));
+
+          col.x.mulAssign(rockTint);
+          col.y.mulAssign(greenTint);
+          col.z.mulAssign(float(0.92).add(macro.mul(0.12)));
+
+          colorStorage.element(idx).assign(col);
+        })().compute(count);
+
+        // Set up geometry with storage attributes
+        terrainGeo.setAttribute('position', posBuffer);
+        terrainGeo.setAttribute('color', colorBuffer);
+        terrainGeo.setAttribute('normal', normalBuffer);
+
+        const mat = new THREE.MeshStandardMaterial({
+          vertexColors: true,
+          roughness: 0.9,
+          metalness: 0.02,
+        });
+
+        const mesh = new THREE.Mesh(terrainGeo, mat);
+        mesh.castShadow = false;
+        mesh.receiveShadow = true;
+        return mesh;
+      }
+
+      async function gpuComputeTerrain() {
+        await renderer.computeAsync(computeHeights);
+        await renderer.computeAsync(computeNormals);
+        await renderer.computeAsync(computeColors);
+      }
+
+      // Initial build
+      terrain = createTerrainBuffers(params.terrainResolution);
+      scene.add(terrain);
+      await gpuComputeTerrain();
+
+      const skyGeo = new THREE.SphereGeometry(480, 48, 32);
+      const skyMat = new THREE.MeshBasicMaterial({ side: THREE.BackSide, vertexColors: true, fog: false });
+      const sky = new THREE.Mesh(skyGeo, skyMat);
+      updateSkyColors(skyGeo, 0.5);
+      scene.add(sky);
+
+      // ========== RIVER / WATER PLANE ==========
+      const waterUniforms = {
+        uTime: uniform(0.0),
+        uWaterLevel: uniform(1.2),
+      };
+
+      const waterGeo = new THREE.PlaneGeometry(160, 160, 256, 256);
+      waterGeo.rotateX(-Math.PI / 2);
+
+      const waterMat = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color('#1a4e5e'),
+        roughness: 0.05,
+        metalness: 0.02,
+        transmission: 0.92,
+        thickness: 4.5,
+        transparent: true,
+        opacity: 0.78,
+        ior: 1.33,
+        envMapIntensity: 0.8,
+        specularIntensity: 1.5,
+        specularColor: new THREE.Color('#fff8e0'),
+        attenuationColor: new THREE.Color('#0a4a5a'),
+        attenuationDistance: 8.0,
+        dispersion: 0.15,
+        clearcoat: 0.3,
+        clearcoatRoughness: 0.08,
+        sheen: 0.1,
+        sheenColor: new THREE.Color('#88ccdd'),
+        sheenRoughness: 0.3,
+      });
+
+      // GPU compute water vertex animation
+      const waterVertCount = waterGeo.attributes.position.count;
+      const waterPosArray = new Float32Array(waterVertCount * 3);
+      waterPosArray.set(waterGeo.attributes.position.array);
+      const waterPosBuffer = new StorageBufferAttribute(waterPosArray, 3);
+      const waterNormalBuffer = new StorageBufferAttribute(new Float32Array(waterVertCount * 3), 3);
+
+      const waterPosStorage = storage(waterPosBuffer, 'vec3', waterVertCount);
+      const waterNormalStorage = storage(waterNormalBuffer, 'vec3', waterVertCount);
+
+      const waterBasePosArray = new Float32Array(waterVertCount * 3);
+      waterBasePosArray.set(waterGeo.attributes.position.array);
+      const waterBasePosBuffer = new StorageBufferAttribute(waterBasePosArray, 3);
+      const waterBasePosStorage = storage(waterBasePosBuffer, 'vec3', waterVertCount);
+
+      const uWaterTime = waterUniforms.uTime;
+      const uWaterLevel = waterUniforms.uWaterLevel;
+
+      // Wave compute kernel
+      const computeWater = Fn(() => {
+        const idx = instanceIndex;
+        const basePos = waterBasePosStorage.element(idx);
+        const pos = waterPosStorage.element(idx);
+        const x = basePos.x;
+        const z = basePos.z;
+        const t = uWaterTime;
+
+        // Multi-layered waves with caustic-like distortion
+        const w1 = sin(x.mul(0.08).add(t.mul(0.12))).mul(cos(z.mul(0.06).add(t.mul(0.09)))).mul(0.06);
+        const w2 = sin(x.mul(0.15).add(z.mul(0.12)).add(t.mul(0.18))).mul(0.03);
+        const w3 = sin(x.mul(0.22).sub(z.mul(0.18)).add(t.mul(0.25))).mul(0.015);
+        const w4 = cos(x.mul(0.05).add(z.mul(0.08)).add(t.mul(0.06))).mul(0.08);
+        const ripple = sin(x.mul(0.4).add(t.mul(0.5))).mul(cos(z.mul(0.35).add(t.mul(0.4)))).mul(0.008);
+        // Fine high-frequency micro-ripples for refraction variation
+        const micro1 = sin(x.mul(0.6).add(z.mul(0.45)).add(t.mul(0.7))).mul(0.004);
+        const micro2 = cos(x.mul(0.8).sub(z.mul(0.55)).add(t.mul(0.9))).mul(0.003);
+        const micro3 = sin(x.mul(1.2).add(z.mul(0.9)).sub(t.mul(1.1))).mul(0.002);
+
+        const y = uWaterLevel.add(w1).add(w2).add(w3).add(w4).add(ripple).add(micro1).add(micro2).add(micro3);
+
+        pos.x.assign(x);
+        pos.y.assign(y);
+        pos.z.assign(z);
+      })().compute(waterVertCount);
+
+      // Water normal compute kernel
+      const computeWaterNormals = Fn(() => {
+        const idx = instanceIndex;
+        const segsP1 = int(257); // 256 + 1
+        const segs = int(256);
+        const row = idx.div(segsP1);
+        const col = mod(int(idx), segsP1);
+
+        const getY = Fn(([r, c]) => {
+          const ri = clamp(int(r), 0, segs);
+          const ci = clamp(int(c), 0, segs);
+          return waterPosStorage.element(ri.mul(segsP1).add(ci)).y;
+        });
+
+        const cellSize = float(160.0).div(float(256.0));
+        const hl = getY(row, col.sub(1));
+        const hr = getY(row, col.add(1));
+        const hd = getY(row.sub(1), col);
+        const hu = getY(row.add(1), col);
+
+        const nx = hl.sub(hr);
+        const nz = hd.sub(hu);
+        const ny = cellSize.mul(2.0);
+        const len = nx.mul(nx).add(ny.mul(ny)).add(nz.mul(nz)).sqrt();
+
+        waterNormalStorage.element(idx).assign(vec3(nx.div(len), ny.div(len), nz.div(len)));
+      })().compute(waterVertCount);
+
+      waterGeo.setAttribute('position', waterPosBuffer);
+      waterGeo.setAttribute('normal', waterNormalBuffer);
+
+      const water = new THREE.Mesh(waterGeo, waterMat);
+      water.receiveShadow = true;
+      scene.add(water);
+      waterMatRef = waterMat;
+
+      async function gpuComputeWater() {
+        await renderer.computeAsync(computeWater);
+        await renderer.computeAsync(computeWaterNormals);
+      }
+
+      await gpuComputeWater();
+
+      const clock = new THREE.Clock();
+
+      // Day cycle animation
+      const dayCycle = {
+        enabled: true,
+        speed: params.daySpeed,
+        time: params.sunAzimuth, // start from current azimuth
+      };
+
+      buildUI();
+      applyAtmosphere();
+
+      panel.classList.add('visible');
+      panelToggle.classList.add('open');
+
+      renderer.setAnimationLoop(async () => {
+        const t = clock.getElapsedTime();
+        const dt = Math.min(clock.getDelta(), 0.05);
+
+        // Animate sun slowly through the day
+        if (dayCycle.enabled) {
+          dayCycle.time += dt * dayCycle.speed;
+          if (dayCycle.time > 1.0) dayCycle.time -= 1.0;
+
+          params.sunAzimuth = dayCycle.time;
+
+          // Gentle elevation arc: rises and falls with azimuth
+          // Creates a smooth arc peaking at 0.5 azimuth
+          const arc = Math.sin(dayCycle.time * Math.PI);
+          params.sunElevation = 0.08 + arc * 0.72;
+
+          // Update UI sliders if panel is open
+          if (dayCycle._azSlider) {
+            dayCycle._azSlider.value = params.sunAzimuth;
+            dayCycle._azSliderVal.textContent = Number(params.sunAzimuth).toFixed(3);
+          }
+          if (dayCycle._elSlider) {
+            dayCycle._elSlider.value = params.sunElevation;
+            dayCycle._elSliderVal.textContent = Number(params.sunElevation).toFixed(3);
+          }
+        }
+
+        updateSunPosition();
+        applyAtmosphere();
+
+        // Update water animation
+        waterUniforms.uTime.value = t;
+        await gpuComputeWater();
+
+        if (needsFullRebuild) {
+          needsFullRebuild = false;
+          scene.remove(terrain);
+          if (terrainGeo) terrainGeo.dispose();
+          terrain = createTerrainBuffers(params.terrainResolution);
+          scene.add(terrain);
+          await gpuComputeTerrain();
+        } else if (terrainDirty) {
+          terrainDirty = false;
+          // Just update uniforms and recompute
+          uScale.value = params.scale;
+          uOctaves.value = params.octaves;
+          uPersistence.value = params.persistence;
+          uLacunarity.value = params.lacunarity;
+          uHeight.value = params.height;
+          uFlatness.value = params.flatness;
+          uSeed.value = params.seed;
+          uDropoff.value = params.dropoff ? 1.0 : 0.0;
+          await gpuComputeTerrain();
+        }
+
+        controls.update();
+        renderer.render(scene, camera);
+      });
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      function rebuildTerrain() {
+        terrainDirty = true;
+      }
+
+      function fullRebuildTerrain() {
+        needsFullRebuild = true;
+      }
+
+      function smooth01(t) {
+        const x = Math.max(0, Math.min(1, t));
+        return x * x * (3 - 2 * x);
+      }
+
+      function applyAtmosphere() {
+        const cameraHeight = Math.max(0, camera.position.y);
+        const extinction = Math.exp(-cameraHeight * params.extinctionHeightFalloff) * params.extinctionDensity;
+        const scatter = Math.exp(-cameraHeight * params.scatterHeightFalloff) * params.scatterDensity;
+        const sunHeight = params.sunElevation;
+        const mie = scatter * (0.55 + (1.0 - sunHeight) * params.mieStrength);
+
+        scene.fog.density = extinction * 0.78 + mie * 0.92;
+
+        // Richer sky coloring based on sun elevation
+        const deepDawn = new THREE.Color('#c45530');
+        const warm = new THREE.Color('#dbac9c');
+        const cool = new THREE.Color('#c0c4d8');
+        const fogColor = new THREE.Color();
+        if (sunHeight < 0.15) {
+          fogColor.lerpColors(deepDawn, warm, sunHeight / 0.15);
+        } else if (sunHeight < 0.4) {
+          fogColor.lerpColors(warm, cool, (sunHeight - 0.15) / 0.25 * 0.5);
+        } else {
+          const t = (sunHeight - 0.4) / 0.6;
+          fogColor.lerpColors(warm.lerp(cool, 0.5), cool, t * 0.6 + 0.3);
+        }
+        scene.fog.color.copy(fogColor);
+        scene.background.copy(scene.fog.color);
+
+        const skyMix = 0.25 + (1.0 - sunHeight) * 0.65 + mie * 8.0;
+        updateSkyColors(skyGeo, skyMix, sunHeight);
+
+        hemi.intensity = 0.2 + sunHeight * 0.65 + scatter * 16.0;
+      }
+
+      function updateSkyColors(geo, haze, sunElev = 0.5) {
+        const p = geo.attributes.position;
+        let c = geo.getAttribute('color');
+        if (!c) {
+          c = new THREE.BufferAttribute(new Float32Array(p.count * 3), 3);
+          geo.setAttribute('color', c);
+        }
+
+        // Dynamic sky palette based on sun elevation
+        const topHigh = new THREE.Color('#a4c4e0');
+        const topLow = new THREE.Color('#2a1833');
+        const midHigh = new THREE.Color('#d4b8ae');
+        const midLow = new THREE.Color('#e86830');
+        const bottomHigh = new THREE.Color('#8e7078');
+        const bottomLow = new THREE.Color('#b83818');
+
+        const top = new THREE.Color().lerpColors(topLow, topHigh, sunElev);
+        const mid = new THREE.Color().lerpColors(midLow, midHigh, sunElev);
+        const bottom = new THREE.Color().lerpColors(bottomLow, bottomHigh, sunElev);
+        const fogTint = new THREE.Color('#e3c1b6');
+
+        const sunDir = new THREE.Vector3(
+          Math.cos(params.sunAzimuth * Math.PI * 2) * Math.cos(sunElev * Math.PI * 0.5),
+          Math.sin(sunElev * Math.PI * 0.5),
+          Math.sin(params.sunAzimuth * Math.PI * 2) * Math.cos(sunElev * Math.PI * 0.5)
+        ).normalize();
+
+        const vertDir = new THREE.Vector3();
+        const sunGlowColor = new THREE.Color();
+        const col = new THREE.Color();
+
+        for (let i = 0; i < p.count; i++) {
+          const px = p.getX(i);
+          const py = p.getY(i);
+          const pz = p.getZ(i);
+          const h = smooth01((py + 220) / 480);
+
+          col.copy(bottom).lerp(mid, smooth01(h * 1.25));
+          col.lerp(top, smooth01((h - 0.35) / 0.65));
+          col.lerp(fogTint, Math.min(1, haze * (1 - h) * 0.9));
+
+          // Sun glow on sky dome
+          vertDir.set(px, py, pz).normalize();
+          const sunDot = Math.max(0, vertDir.dot(sunDir));
+          const sunGlowIntensity = Math.pow(sunDot, 32) * 0.8 + Math.pow(sunDot, 8) * 0.25;
+          sunGlowColor.setRGB(1.0, 0.85 + sunElev * 0.15, 0.6 + sunElev * 0.3);
+          col.r += sunGlowColor.r * sunGlowIntensity;
+          col.g += sunGlowColor.g * sunGlowIntensity;
+          col.b += sunGlowColor.b * sunGlowIntensity;
+
+          const k = i * 3;
+          c.array[k + 0] = Math.min(1, col.r);
+          c.array[k + 1] = Math.min(1, col.g);
+          c.array[k + 2] = Math.min(1, col.b);
+        }
+        c.needsUpdate = true;
+      }
+
+      var uiTarget = null;
+
+      function buildUI() {
+        uiTarget = tabTerrain;
+        addSectionLabel('Noise');
+        addSlider('Scale', 'scale', 0.01, 0.12, 0.001, 3);
+        addSlider('Octaves', 'octaves', 1, 9, 1, 0, true);
+        addSlider('Persistence', 'persistence', 0.25, 0.95, 0.001, 4);
+        addSlider('Lacunarity', 'lacunarity', 1.2, 3.2, 0.01, 2);
+        addSectionLabel('Shape');
+        addSlider('Height', 'height', 0, 25, 0.25, 2);
+        addSlider('Water Level', 'waterLevel', -5, 10, 0.1, 1, false, false);
+        addSlider('Flatness', 'flatness', 0, 10, 0.1, 1);
+        addSlider('Seed', 'seed', 0, 500, 1, 0, true);
+        addRandomSeedButton();
+        addToggle('Edge Dropoff', 'dropoff');
+
+        uiTarget = tabRender;
+        addSectionLabel('Quality');
+        addSelect('Terrain Detail', 'terrainResolution', [128, 256, 512, 1024], true);
+        const renderNote = document.createElement('div');
+        renderNote.className = 'subtle';
+        renderNote.textContent = 'Higher detail = more vertices. Requires geometry rebuild. All noise, normals & coloring run on GPU compute shaders.';
+        uiTarget.appendChild(renderNote);
+
+        uiTarget = tabAtmosphere;
+        addSectionLabel('Scattering');
+        addSlider('Scatter Density', 'scatterDensity', 0, 0.08, 0.0005, 4, false, false);
+        addSlider('Scatter Falloff', 'scatterHeightFalloff', 0, 0.2, 0.001, 4, false, false);
+        addSectionLabel('Extinction');
+        addSlider('Extinction Density', 'extinctionDensity', 0, 0.08, 0.0005, 4, false, false);
+        addSlider('Extinction Falloff', 'extinctionHeightFalloff', 0, 0.15, 0.001, 4, false, false);
+        addSectionLabel('Sun');
+        addToggleCustom('Animate Sun', dayCycle, 'enabled');
+        addSlider('Day Speed', 'daySpeed', 0.002, 0.3, 0.001, 3, false, false);
+        addSlider('Sun Azimuth', 'sunAzimuth', 0, 1, 0.001, 3, false, false);
+        addSlider('Sun Elevation', 'sunElevation', 0.02, 1, 0.001, 3, false, false);
+        addSectionLabel('Mie');
+        addSlider('Mie Strength', 'mieStrength', 0, 1.5, 0.01, 2, false, false);
+        const note = document.createElement('div');
+        note.className = 'subtle';
+        note.textContent = 'Atmosphere parameters update in real-time without rebuilding geometry.';
+        uiTarget.appendChild(note);
+      }
+
+      function addRandomSeedButton() {
+        const btn = document.createElement('button');
+        btn.textContent = '🎲 Random Seed';
+        btn.style.cssText = `
+          width: 100%;
+          padding: 7px 0;
+          margin: 4px 0 8px;
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 6px;
+          background: rgba(255,255,255,0.06);
+          color: rgba(255,255,255,0.78);
+          font-family: inherit;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          cursor: pointer;
+          transition: background 0.2s, border-color 0.2s;
+        `;
+        btn.addEventListener('mouseenter', () => {
+          btn.style.background = 'rgba(255,255,255,0.12)';
+          btn.style.borderColor = 'rgba(255,255,255,0.22)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.background = 'rgba(255,255,255,0.06)';
+          btn.style.borderColor = 'rgba(255,255,255,0.12)';
+        });
+        btn.addEventListener('click', () => {
+          const newSeed = Math.floor(Math.random() * 501);
+          params.seed = newSeed;
+          // Update the seed slider and its display value
+          const seedSlider = tabTerrain.querySelector('input[type="range"][max="500"]');
+          if (seedSlider) {
+            seedSlider.value = newSeed;
+            const valEl = seedSlider.parentElement.querySelector('.val');
+            if (valEl) valEl.textContent = String(newSeed);
+          }
+          rebuildTerrain();
+        });
+        uiTarget.appendChild(btn);
+      }
+
+      function addToggleCustom(label, obj, key) {
+        const row = document.createElement('div');
+        row.className = 'toggle-row';
+        const l = document.createElement('label');
+        l.textContent = label;
+        const toggle = document.createElement('label');
+        toggle.className = 'toggle-switch';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = obj[key];
+        const track = document.createElement('span');
+        track.className = 'toggle-track';
+        toggle.append(input, track);
+        row.append(l, toggle);
+        uiTarget.appendChild(row);
+        input.addEventListener('change', () => {
+          obj[key] = input.checked;
+        });
+      }
+
+      function addSectionLabel(title) {
+        const lbl = document.createElement('div');
+        lbl.className = 'section-label';
+        lbl.textContent = title;
+        uiTarget.appendChild(lbl);
+      }
+
+      function addToggle(label, key) {
+        const row = document.createElement('div');
+        row.className = 'toggle-row';
+        const l = document.createElement('label');
+        l.textContent = label;
+        const toggle = document.createElement('label');
+        toggle.className = 'toggle-switch';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = params[key];
+        const track = document.createElement('span');
+        track.className = 'toggle-track';
+        toggle.append(input, track);
+        row.append(l, toggle);
+        uiTarget.appendChild(row);
+        input.addEventListener('change', () => {
+          params[key] = input.checked;
+          rebuildTerrain();
+        });
+      }
+
+      function addSelect(label, key, options, rebuild = false) {
+        const row = document.createElement('div');
+        row.className = 'ctrl';
+        const top = document.createElement('div');
+        top.className = 'ctrl-top';
+        const l = document.createElement('label');
+        l.textContent = label;
+        const val = document.createElement('div');
+        val.className = 'val';
+        val.textContent = String(params[key]);
+        top.append(l, val);
+        const select = document.createElement('select');
+        for (const option of options) {
+          const el = document.createElement('option');
+          el.value = String(option);
+          el.textContent = String(option) + (option >= 1024 ? ' (high)' : option <= 128 ? ' (low)' : '');
+          if (option === params[key]) el.selected = true;
+          select.appendChild(el);
+        }
+        row.append(top, select);
+        uiTarget.appendChild(row);
+        select.addEventListener('change', () => {
+          const size = Number(select.value);
+          params[key] = size;
+          uSegments.value = size;
+          val.textContent = String(size);
+          if (rebuild) fullRebuildTerrain();
+        });
+      }
+
+      function addSlider(label, key, min, max, step, precision, integer = false, terrainAffects = true) {
+        const row = document.createElement('div');
+        row.className = 'ctrl';
+        const top = document.createElement('div');
+        top.className = 'ctrl-top';
+        const l = document.createElement('label');
+        l.textContent = label;
+        const val = document.createElement('div');
+        val.className = 'val';
+        val.textContent = formatVal(params[key], precision, integer);
+        top.append(l, val);
+        const input = document.createElement('input');
+        input.type = 'range';
+        input.min = String(min);
+        input.max = String(max);
+        input.step = String(step);
+        input.value = String(params[key]);
+        row.append(top, input);
+        uiTarget.appendChild(row);
+        input.addEventListener('input', () => {
+          const n = integer ? Math.round(Number(input.value)) : Number(input.value);
+          params[key] = n;
+          val.textContent = formatVal(n, precision, integer);
+          if (key === 'waterLevel') {
+            waterUniforms.uWaterLevel.value = n;
+          } else if (key === 'daySpeed') {
+            dayCycle.speed = n;
+          } else if (key === 'sunAzimuth' || key === 'sunElevation') {
+            // Manual override pauses auto-animation briefly
+            if (key === 'sunAzimuth') dayCycle.time = n;
+            applyAtmosphere();
+          } else if (terrainAffects) {
+            rebuildTerrain();
+          } else {
+            applyAtmosphere();
+          }
+        });
+
+        // Store references for sun sliders so animation can update them
+        if (key === 'sunAzimuth') {
+          dayCycle._azSlider = input;
+          dayCycle._azSliderVal = val;
+        }
+        if (key === 'sunElevation') {
+          dayCycle._elSlider = input;
+          dayCycle._elSliderVal = val;
+        }
+      }
+
+      function formatVal(v, precision, integer) {
+        return integer ? String(Math.round(v)) : Number(v).toFixed(precision);
+      }
+    </script>
+  </body>
+</html>

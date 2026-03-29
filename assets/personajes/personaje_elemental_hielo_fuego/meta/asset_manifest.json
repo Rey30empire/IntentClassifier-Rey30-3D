@@ -1,0 +1,30 @@
+{
+  "asset_id": "personaje_elemental_hielo_fuego",
+  "asset_path": "01_Personajes/personaje_elemental_hielo_fuego",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/personaje_elemental_hielo_fuego/geometry/glb/personaje-elemental-hielo-fuego.glb",
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/personaje_elemental_hielo_fuego/source_archives/personaje-elemental-hielo-fuego-FBX.zip",
+      "01_Personajes/personaje_elemental_hielo_fuego/source_archives/personaje-elemental-hielo-fuego-OBJ.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/personaje_elemental_hielo_fuego/geometry/glb/personaje-elemental-hielo-fuego.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "01_Personajes/personaje_elemental_hielo_fuego/geometry/stl/personaje-elemental-hielo-fuego.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

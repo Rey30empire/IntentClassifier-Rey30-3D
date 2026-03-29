@@ -1,0 +1,30 @@
+{
+  "scene_id": "sunny-block-planner",
+  "title": "Sunny Block Planner",
+  "scene_path": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/sunny-block-planner",
+  "category": "05_Escenas_ThreeJS/03_Herramientas_y_Editores",
+  "scene_kind": "tooling",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/sunny-block-planner/package.json",
+    "entry_html": null,
+    "primary_script": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/sunny-block-planner/main.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 1,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/sunny-block-planner/main.js"
+  ],
+  "uses_external_asset_catalog": false
+}

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forest Camp Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #87ceeb; font-family: 'Segoe UI', sans-serif; }
+    #root { width: 100vw; height: 100vh; }
+
+    /* ── HUD ── */
+    #hud {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Hearts */
+    .hud-hearts {
+      position: absolute;
+      top: 20px; left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .heart {
+      width: 32px; height: 32px;
+      background: #e83030;
+      clip-path: path('M16 28 C16 28 2 18 2 10 A6 6 0 0 1 16 6 A6 6 0 0 1 30 10 C30 18 16 28 16 28Z');
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+    }
+    .heart.empty { background: #555; opacity: 0.4; }
+
+    /* Coin counter */
+    .hud-coins {
+      position: absolute;
+      top: 60px; left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    /* Score display */
+    .hud-score {
+      position: absolute;
+      top: 100px; left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .hud-score-label {
+      color: #aaa;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .hud-score-value {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    /* Level display */
+    .hud-level {
+      position: absolute;
+      top: 140px; left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .hud-level-label { color: #aaa; font-size: 13px; font-weight: 600; }
+    .hud-level-value { color: #fff; font-size: 14px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+    /* Gems counter */
+    .hud-gems {
+      position: absolute;
+      top: 178px; left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .hud-gems-label { color: #c58fff; font-size: 13px; font-weight: 600; }
+    .hud-gems-value { color: #e0b0ff; font-size: 18px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+    /* Gem progress bar */
+    .hud-progress {
+      position: absolute;
+      top: 216px; left: 20px;
+      width: 180px;
+      height: 8px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #9b30ff;
+      border-radius: 4px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    /* Turns left counter */
+    .hud-turns {
+      position: absolute;
+      top: 234px; left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .hud-turns-label { color: #aaa; font-size: 13px; font-weight: 600; }
+    .hud-turns-value { color: #fff; font-size: 18px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+    /* Combo & Shield indicators */
+    .hud-status {
+      position: absolute;
+      top: 274px; left: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .hud-combo-value, .hud-shield-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.35);
+      padding: 4px 12px;
+      border-radius: 16px;
+      min-height: 28px;
+    }
+
+    /* Game message popup */
+    #game-message {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 14px;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      text-align: center;
+      white-space: nowrap;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Controls hint */
+    .hud-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: #ddd;
+      font-size: 11px;
+      line-height: 1.6;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .hud-controls kbd {
+      background: rgba(255,255,255,0.15);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: monospace;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .coin-icon {
+      width: 24px; height: 24px;
+      background: radial-gradient(circle at 35% 35%, #ffe066, #f5a623);
+      border-radius: 50%;
+      border: 2px solid #d4900a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .coin-count {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    /* Settings toggle button */
+    .hud-settings-btn {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 40px; height: 40px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, transform 0.2s;
+      z-index: 101;
+    }
+    .hud-settings-btn:hover {
+      background: rgba(0,0,0,0.55);
+      transform: scale(1.08);
+    }
+    .hud-settings-btn:active {
+      transform: scale(0.95);
+    }
+    .hud-settings-btn svg {
+      width: 20px; height: 20px;
+      fill: rgba(255,255,255,0.75);
+      transition: fill 0.2s;
+    }
+    .hud-settings-btn:hover svg {
+      fill: #fff;
+    }
+
+    /* Bottom right — roll button */
+    .hud-roll {
+      position: absolute;
+      bottom: 20px; right: 20px;
+    }
+    .roll-btn {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.85);
+      border: 3px solid rgba(0,0,0,0.15);
+      border-radius: 50%;
+      font-size: 30px;
+      cursor: pointer;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .roll-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+    .roll-btn:active {
+      transform: scale(0.95);
+    }
+    .roll-btn.rolling {
+      animation: dice-shake 0.4s ease infinite;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    @keyframes dice-shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-12deg) scale(1.05); }
+      50% { transform: rotate(10deg) scale(0.95); }
+      75% { transform: rotate(-8deg) scale(1.02); }
+    }
+
+    /* ── ENV GUI ── */
+    #env-gui {
+      position: fixed;
+      top: 80px;
+      right: 16px;
+      width: 280px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      background: rgba(15, 15, 25, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 0;
+      z-index: 100;
+      pointer-events: auto;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 11px;
+      color: #ccc;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.15) transparent;
+    }
+    #env-gui::-webkit-scrollbar { width: 4px; }
+    #env-gui::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+    #env-gui .gui-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      user-select: none;
+    }
+    #env-gui .gui-header h3 {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    #env-gui .gui-header .toggle-arrow {
+      font-size: 10px;
+      color: #888;
+      transition: transform 0.2s;
+    }
+    #env-gui.collapsed .gui-body { display: none; }
+    #env-gui.collapsed .toggle-arrow { transform: rotate(-90deg); }
+
+    #env-gui .gui-body { padding: 6px 0; }
+
+    #env-gui .gui-section {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 0;
+    }
+    #env-gui .gui-section:last-child { border-bottom: none; }
+
+    #env-gui .section-title {
+      display: flex;
+      align-items: center;
+      padding: 7px 14px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #888;
+      transition: color 0.15s;
+    }
+    #env-gui .section-title:hover { color: #bbb; }
+    #env-gui .section-title .s-arrow {
+      margin-right: 6px;
+      font-size: 8px;
+      color: #666;
+      transition: transform 0.2s;
+    }
+    #env-gui .section-title.closed .s-arrow { transform: rotate(-90deg); }
+
+    #env-gui .section-rows { padding: 2px 14px 8px 14px; }
+    #env-gui .section-rows.hidden { display: none; }
+
+    #env-gui .gui-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3px 0;
+      gap: 8px;
+    }
+    #env-gui .gui-row label {
+      flex: 0 0 auto;
+      min-width: 80px;
+      font-size: 11px;
+      color: #aaa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #env-gui .gui-row .ctrl {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    #env-gui .gui-row input[type="range"] {
+      flex: 1;
+      height: 3px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255,255,255,0.12);
+      border-radius: 2px;
+      outline: none;
+    }
+    #env-gui .gui-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    }
+    #env-gui .gui-row .val {
+      min-width: 34px;
+      text-align: right;
+      font-size: 10px;
+      color: #999;
+      font-variant-numeric: tabular-nums;
+    }
+    #env-gui .gui-row input[type="color"] {
+      width: 28px;
+      height: 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+    #env-gui .gui-row input[type="checkbox"] {
+      width: 14px; height: 14px;
+      accent-color: #5ca0e8;
+      cursor: pointer;
+    }
+    #env-gui .gui-row select {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      color: #ccc;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 10px;
+      outline: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- HUD Overlay -->
+  <div id="hud">
+    <!-- Hearts -->
+    <div class="hud-hearts">
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart empty"></div>
+      <div class="heart empty"></div>
+    </div>
+
+    <!-- Coins -->
+    <div class="hud-coins">
+      <div class="coin-icon"></div>
+      <span class="coin-count">0</span>
+    </div>
+
+    <!-- Score -->
+    <div class="hud-score">
+      <span class="hud-score-label">SCORE</span>
+      <span class="hud-score-value">0</span>
+    </div>
+
+    <!-- Level -->
+    <div class="hud-level">
+      <span class="hud-level-label">LEVEL</span>
+      <span class="hud-level-value">1 — Meadow Path</span>
+    </div>
+
+    <!-- Gems -->
+    <div class="hud-gems">
+      <span class="hud-gems-label">💎 GEMS</span>
+      <span class="hud-gems-value">0 / 2</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="hud-progress">
+      <div class="progress-fill"></div>
+    </div>
+
+    <!-- Turns left -->
+    <div class="hud-turns">
+      <span class="hud-turns-label">TURNS LEFT</span>
+      <span class="hud-turns-value">60</span>
+    </div>
+
+    <!-- Combo & Shield -->
+    <div class="hud-status">
+      <span class="hud-combo-value"></span>
+      <span class="hud-shield-value"></span>
+    </div>
+
+    <!-- Controls hint -->
+    <div class="hud-controls">
+      <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> Move &nbsp;|&nbsp; <kbd>R</kbd> Restart &nbsp;|&nbsp; <kbd>Enter</kbd> Next Level
+    </div>
+
+    <!-- Settings toggle -->
+    <div class="hud-settings-btn" id="settings-toggle" title="Settings">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.94a7.07 7.07 0 000-1.88l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96a7.04 7.04 0 00-1.62-.94l-.36-2.54a.48.48 0 00-.48-.41h-3.84a.48.48 0 00-.48.41l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.48.48 0 00-.59.22L2.74 8.87a.48.48 0 00.12.61l2.03 1.58a7.07 7.07 0 000 1.88l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 00-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1115.6 12 3.6 3.6 0 0112 15.6z"/></svg>
+    </div>
+
+    <!-- Roll dice button -->
+    <div class="hud-roll">
+      <button class="roll-btn">🎲</button>
+    </div>
+  </div>
+
+  <!-- ENV Settings GUI (hidden by default) -->
+  <div id="env-gui" style="display:none;">
+    <div class="gui-header">
+      <h3>⚙ ENV SETTINGS</h3>
+      <span class="toggle-arrow">▼</span>
+    </div>
+    <div class="gui-body"></div>
+  </div>
+
+  <script>
+    document.getElementById('settings-toggle').addEventListener('click', function() {
+      const gui = document.getElementById('env-gui');
+      if (gui.style.display === 'none') {
+        gui.style.display = '';
+      } else {
+        gui.style.display = 'none';
+      }
+    });
+  </script>
+<script type="module" src="/env-settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "asset_id": "workspace_e252e028_c816_4b16_955c_4c07a76516b9",
+  "asset_path": "99_Por_Clasificar/workspace_e252e028_c816_4b16_955c_4c07a76516b9",
+  "category": "99_Por_Clasificar",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "99_Por_Clasificar/workspace_e252e028_c816_4b16_955c_4c07a76516b9/source_archives/workspace-e252e028-c816-4b16-955c-4c07a76516b9.tar"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 1,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

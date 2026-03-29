@@ -1,0 +1,44 @@
+{
+  "asset_id": "fiery_humanoid",
+  "asset_path": "01_Personajes/fiery_humanoid",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model__from_fiery_humanoid_3d_model.glb",
+  "duplicate_variants_detected": [
+    "01_Personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model__from_fiery_humanoid_3d_model.glb",
+    "01_Personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model__from_modelos_3d.glb",
+    "01_Personajes/fiery_humanoid/geometry/stl/fiery+humanoid+3d+model__from_fiery_humanoid_3d_model.stl",
+    "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-FBX__from_fiery_humanoid_3d_model.zip",
+    "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-OBJ__from_fiery_humanoid_3d_model.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model (1).zip",
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-45.zip",
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-FBX__from_fiery_humanoid_3d_model.zip",
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-FBX.zip",
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-OBJ__from_fiery_humanoid_3d_model.zip",
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model-OBJ.zip",
+      "01_Personajes/fiery_humanoid/source_archives/fiery+humanoid+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model__from_fiery_humanoid_3d_model.glb",
+      "01_Personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model__from_modelos_3d.glb",
+      "01_Personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "01_Personajes/fiery_humanoid/geometry/stl/fiery+humanoid+3d+model__from_fiery_humanoid_3d_model.stl",
+      "01_Personajes/fiery_humanoid/geometry/stl/fiery+humanoid+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 7,
+    "geometry_glb": 3,
+    "geometry_fbx": 0,
+    "geometry_stl": 2,
+    "textures": 0,
+    "imports": 0
+  }
+}

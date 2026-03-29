@@ -1,0 +1,28 @@
+{
+  "asset_id": "meshy_ai_lumis",
+  "asset_path": "04_Animaciones/Biped/meshy_ai_lumis",
+  "category": "04_Animaciones/Biped",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "04_Animaciones/Biped/meshy_ai_lumis/source_archives/Meshy_AI_lumis_0329001804_texture_fbx.zip",
+      "04_Animaciones/Biped/meshy_ai_lumis/source_archives/Meshy_AI_lumis_biped.zip",
+      "04_Animaciones/Biped/meshy_ai_lumis/source_archives/Meshy_AI_lumis_biped1.zip",
+      "04_Animaciones/Biped/meshy_ai_lumis/source_archives/Meshy_AI_lumis_biped30fps.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 4,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

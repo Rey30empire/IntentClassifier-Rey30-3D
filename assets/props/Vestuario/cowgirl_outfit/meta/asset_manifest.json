@@ -1,0 +1,28 @@
+{
+  "asset_id": "cowgirl_outfit",
+  "asset_path": "03_Props/Vestuario/cowgirl_outfit",
+  "category": "03_Props/Vestuario",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [
+    "03_Props/Vestuario/cowgirl_outfit/source_archives/cowgirl+outfit+3d+model__from_torzos.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "03_Props/Vestuario/cowgirl_outfit/source_archives/cowgirl+outfit+3d+model__from_torzos.zip",
+      "03_Props/Vestuario/cowgirl_outfit/source_archives/cowgirl+outfit+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

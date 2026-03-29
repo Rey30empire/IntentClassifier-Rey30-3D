@@ -1,0 +1,36 @@
+{
+  "scene_id": "scene-variation-new-content",
+  "title": "Scene variation with new content",
+  "scene_path": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content",
+  "category": "05_Escenas_ThreeJS/03_Herramientas_y_Editores",
+  "scene_kind": "tooling",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/package.json",
+    "entry_html": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/index.html",
+    "primary_script": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/game.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 7,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/editor.js",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/game.js",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/index.html",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/levels.js",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/pathfinder.js",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/player.js",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/scene-variation-new-content/sceneBuilder.js"
+  ],
+  "uses_external_asset_catalog": false
+}

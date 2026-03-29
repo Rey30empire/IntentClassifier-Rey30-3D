@@ -1,0 +1,32 @@
+{
+  "asset_id": "luxury_ball_gown",
+  "asset_path": "03_Props/Vestuario/luxury_ball_gown",
+  "category": "03_Props/Vestuario",
+  "preferred_runtime_entry": "03_Props/Vestuario/luxury_ball_gown/geometry/glb/luxury+ball+gown+3d+model.glb",
+  "duplicate_variants_detected": [
+    "03_Props/Vestuario/luxury_ball_gown/source_archives/luxury+ball+gown+3d+model__from_root.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "03_Props/Vestuario/luxury_ball_gown/source_archives/luxury+ball+gown+3d+model__from_root.zip",
+      "03_Props/Vestuario/luxury_ball_gown/source_archives/luxury+ball+gown+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "03_Props/Vestuario/luxury_ball_gown/geometry/glb/luxury+ball+gown+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "03_Props/Vestuario/luxury_ball_gown/geometry/stl/luxury+ball+gown+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

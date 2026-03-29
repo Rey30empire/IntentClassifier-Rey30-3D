@@ -1,0 +1,32 @@
+{
+  "asset_id": "flower_creature",
+  "asset_path": "01_Personajes/flower_creature",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/flower_creature/geometry/glb/flower+creature+3d+model.glb",
+  "duplicate_variants_detected": [
+    "01_Personajes/flower_creature/source_archives/flower+creature+3d+model__from_root.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/flower_creature/source_archives/flower+creature+3d+model__from_root.zip",
+      "01_Personajes/flower_creature/source_archives/flower+creature+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/flower_creature/geometry/glb/flower+creature+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "01_Personajes/flower_creature/geometry/stl/flower+creature+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "asset_id": "02603854_46dd_45cc_a196_5932a1a2a737",
+  "asset_path": "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737",
+  "category": "99_Por_Clasificar",
+  "preferred_runtime_entry": "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737/geometry/glb/02603854-46dd-45cc-a196-5932a1a2a737.glb",
+  "duplicate_variants_detected": [
+    "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737/source_archives/02603854-46dd-45cc-a196-5932a1a2a737__from_root.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737/source_archives/02603854-46dd-45cc-a196-5932a1a2a737__from_root.zip",
+      "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737/source_archives/02603854-46dd-45cc-a196-5932a1a2a737.zip"
+    ],
+    "geometry_glb": [
+      "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737/geometry/glb/02603854-46dd-45cc-a196-5932a1a2a737.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "99_Por_Clasificar/02603854_46dd_45cc_a196_5932a1a2a737/geometry/stl/02603854-46dd-45cc-a196-5932a1a2a737.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

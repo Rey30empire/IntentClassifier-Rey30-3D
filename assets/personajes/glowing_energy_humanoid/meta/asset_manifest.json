@@ -1,0 +1,36 @@
+{
+  "asset_id": "glowing_energy_humanoid",
+  "asset_path": "01_Personajes/glowing_energy_humanoid",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/glowing_energy_humanoid/geometry/glb/glowing+energy+humanoid+3d+model (1).glb",
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/glowing_energy_humanoid/source_archives/glowing+energy+humanoid+3d+model.zip",
+      "01_Personajes/glowing_energy_humanoid/source_archives/glowing+energy+humanoid+3d+model+FBX.zip",
+      "01_Personajes/glowing_energy_humanoid/source_archives/glowing+energy+humanoid+3d+model+OBJ (1).zip",
+      "01_Personajes/glowing_energy_humanoid/source_archives/glowing+energy+humanoid+3d+OBJ+model.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/glowing_energy_humanoid/geometry/glb/glowing+energy+humanoid+3d+model (1).glb",
+      "01_Personajes/glowing_energy_humanoid/geometry/glb/glowing+energy+humanoid+3d+model.glb"
+    ],
+    "geometry_fbx": [
+      "01_Personajes/glowing_energy_humanoid/geometry/fbx/glowing+energy+humanoid+3d+model/tripo_convert_f38aa124-3728-47d1-93bf-b0050a5190c5.fbx"
+    ],
+    "geometry_stl": [
+      "01_Personajes/glowing_energy_humanoid/geometry/stl/glowing+energy+humanoid+3d+1model.stl",
+      "01_Personajes/glowing_energy_humanoid/geometry/stl/glowing+energy+humanoid+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 4,
+    "geometry_glb": 2,
+    "geometry_fbx": 1,
+    "geometry_stl": 2,
+    "textures": 0,
+    "imports": 0
+  }
+}

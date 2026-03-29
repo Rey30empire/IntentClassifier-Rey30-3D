@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Engine icon">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#06131d" />
+      <stop offset="1" stop-color="#14091f" />
+    </linearGradient>
+    <linearGradient id="edgeA" x1="18" y1="18" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22d3ee" />
+      <stop offset="1" stop-color="#0ea5e9" />
+    </linearGradient>
+    <linearGradient id="edgeB" x1="24" y1="16" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f472b6" />
+      <stop offset="1" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#bg)" />
+  <path d="M32 14 46 22 32 30 18 22 32 14Z" fill="none" stroke="url(#edgeA)" stroke-width="3" stroke-linejoin="round" />
+  <path d="M18 22v18l14 8V30" fill="none" stroke="url(#edgeA)" stroke-width="3" stroke-linejoin="round" />
+  <path d="M46 22v18l-14 8" fill="none" stroke="url(#edgeB)" stroke-width="3" stroke-linejoin="round" />
+  <circle cx="46" cy="22" r="2.2" fill="#f472b6" />
+  <circle cx="18" cy="22" r="2.2" fill="#22d3ee" />
+  <circle cx="32" cy="48" r="2.2" fill="#c084fc" />
+</svg>

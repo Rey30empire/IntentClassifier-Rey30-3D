@@ -1,0 +1,31 @@
+{
+  "scene_id": "game-3d",
+  "title": "3D Game",
+  "scene_path": "05_Escenas_ThreeJS/01_Juegos/game-3d",
+  "category": "05_Escenas_ThreeJS/01_Juegos",
+  "scene_kind": "gameplay",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/01_Juegos/game-3d/package.json",
+    "entry_html": "05_Escenas_ThreeJS/01_Juegos/game-3d/index.html",
+    "primary_script": "05_Escenas_ThreeJS/01_Juegos/game-3d/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 2,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/01_Juegos/game-3d/index.html",
+    "05_Escenas_ThreeJS/01_Juegos/game-3d/scene.js"
+  ],
+  "uses_external_asset_catalog": false
+}

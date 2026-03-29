@@ -1,0 +1,32 @@
+{
+  "asset_id": "fairy_house",
+  "asset_path": "02_Entornos/Estructuras/fairy_house",
+  "category": "02_Entornos/Estructuras",
+  "preferred_runtime_entry": "02_Entornos/Estructuras/fairy_house/geometry/glb/fairy+house+3d+model.glb",
+  "duplicate_variants_detected": [
+    "02_Entornos/Estructuras/fairy_house/source_archives/fairy+house+3d+model__from_root.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "02_Entornos/Estructuras/fairy_house/source_archives/fairy+house+3d+model__from_root.zip",
+      "02_Entornos/Estructuras/fairy_house/source_archives/fairy+house+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "02_Entornos/Estructuras/fairy_house/geometry/glb/fairy+house+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "02_Entornos/Estructuras/fairy_house/geometry/stl/fairy+house+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

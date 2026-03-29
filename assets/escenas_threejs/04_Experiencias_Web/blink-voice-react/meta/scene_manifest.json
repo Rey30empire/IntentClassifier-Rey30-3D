@@ -1,0 +1,31 @@
+{
+  "scene_id": "blink-voice-react",
+  "title": "Blink Voice React",
+  "scene_path": "05_Escenas_ThreeJS/04_Experiencias_Web/blink-voice-react",
+  "category": "05_Escenas_ThreeJS/04_Experiencias_Web",
+  "scene_kind": "web-experience",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/04_Experiencias_Web/blink-voice-react/package.json",
+    "entry_html": "05_Escenas_ThreeJS/04_Experiencias_Web/blink-voice-react/index.html",
+    "primary_script": "05_Escenas_ThreeJS/04_Experiencias_Web/blink-voice-react/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 2,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/04_Experiencias_Web/blink-voice-react/index.html",
+    "05_Escenas_ThreeJS/04_Experiencias_Web/blink-voice-react/scene.js"
+  ],
+  "uses_external_asset_catalog": false
+}

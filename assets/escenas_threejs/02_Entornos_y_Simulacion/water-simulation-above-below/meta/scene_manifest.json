@@ -1,0 +1,31 @@
+{
+  "scene_id": "water-simulation-above-below",
+  "title": "Water Simulation Above and Below",
+  "scene_path": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/water-simulation-above-below",
+  "category": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion",
+  "scene_kind": "simulation",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/water-simulation-above-below/package.json",
+    "entry_html": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/water-simulation-above-below/index.html",
+    "primary_script": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/water-simulation-above-below/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 2,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/water-simulation-above-below/index.html",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/water-simulation-above-below/scene.js"
+  ],
+  "uses_external_asset_catalog": false
+}

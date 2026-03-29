@@ -1,0 +1,28 @@
+{
+  "asset_id": "futuristic_assault_rifle",
+  "asset_path": "03_Props/Armas/futuristic_assault_rifle",
+  "category": "03_Props/Armas",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [
+    "03_Props/Armas/futuristic_assault_rifle/source_archives/futuristic+assault+rifle+3d+model__from_modelos_3d.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "03_Props/Armas/futuristic_assault_rifle/source_archives/futuristic+assault+rifle+3d+model__from_modelos_3d.zip",
+      "03_Props/Armas/futuristic_assault_rifle/source_archives/futuristic+assault+rifle+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

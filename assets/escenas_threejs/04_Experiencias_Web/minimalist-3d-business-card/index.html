@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Minimalist 3D Business Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; outline: none !important; box-sizing: border-box; }
+    html, body, #root { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Inter', sans-serif; }
+    canvas { display: block; outline: none !important; }
+    #canvas { position: absolute; top: 0; left: 0; }
+
+    #panel {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 280px;
+      max-height: calc(100vh - 20px);
+      overflow-y: auto;
+      background: rgba(18, 18, 28, 0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 18px 16px;
+      z-index: 100;
+      color: #ccc;
+      backdrop-filter: blur(12px);
+    }
+    #panel::-webkit-scrollbar { width: 4px; }
+    #panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+    #panel h2 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .field { margin-bottom: 10px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 4px;
+    }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"] {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 7px 10px;
+      color: #e0e0e0;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+    .field input[type="text"]:focus,
+    .field input[type="email"]:focus,
+    .field input[type="tel"]:focus {
+      border-color: rgba(201,168,76,0.5);
+    }
+
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .color-row label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      flex: 1;
+    }
+    .color-row input[type="color"] {
+      width: 32px;
+      height: 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+    .color-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 1px; }
+    .color-row input[type="color"]::-webkit-color-swatch { border-radius: 3px; border: none; }
+
+    .upload-area {
+      border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 6px;
+    }
+    .upload-area:hover {
+      border-color: rgba(201,168,76,0.4);
+      background: rgba(255,255,255,0.03);
+    }
+    .upload-area p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      pointer-events: none;
+    }
+    .upload-area p span { color: rgba(201,168,76,0.8); }
+    .upload-area input { display: none; }
+
+    .logo-preview {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .logo-preview img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+    }
+    .logo-preview .logo-name {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .logo-preview .remove-logo {
+      font-size: 10px;
+      color: rgba(255,80,80,0.6);
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: color 0.2s;
+    }
+    .logo-preview .remove-logo:hover { color: rgba(255,80,80,1); }
+
+    .remove-line {
+      font-size: 10px;
+      color: rgba(255,80,80,0.5);
+      cursor: pointer;
+      padding: 1px 5px;
+      border-radius: 3px;
+      transition: color 0.2s;
+    }
+    .remove-line:hover { color: rgba(255,80,80,1); }
+
+    .icon-select {
+      width: 36px;
+      height: 28px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: #e0e0e0;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      padding: 0 2px;
+      text-align: center;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .icon-select:focus { border-color: rgba(201,168,76,0.5); }
+
+    .add-line-btn {
+      width: 100%;
+      margin-bottom: 4px;
+      padding: 6px;
+      background: rgba(255,255,255,0.03);
+      border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.4);
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .add-line-btn:hover {
+      border-color: rgba(201,168,76,0.4);
+      color: rgba(201,168,76,0.8);
+    }
+    .add-line-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .apply-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 9px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 6px;
+      color: #c9a84c;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .apply-btn:hover { background: rgba(201,168,76,0.25); }
+
+    .logo-preset-btn {
+      flex: 1;
+      padding: 5px 2px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      color: rgba(255,255,255,0.5);
+      font-size: 9px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .logo-preset-btn:hover {
+      border-color: rgba(201,168,76,0.4);
+      color: rgba(201,168,76,0.9);
+    }
+
+    #toggle-panel {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 101;
+      width: 36px;
+      height: 36px;
+      background: rgba(18,18,28,0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #ccc;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 600px) {
+      #panel { width: 260px; right: 10px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <button id="toggle-panel">☰</button>
+
+  <div id="panel">
+    <h2>Customize Card</h2>
+
+    <div class="section-label">Identity</div>
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="inp-name" value="ALEXANDER GREY" maxlength="28">
+    </div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="inp-title" value="CREATIVE DIRECTOR" maxlength="30">
+    </div>
+    <div class="field">
+      <label>Brand Initials</label>
+      <input type="text" id="inp-brand" value="GS" maxlength="4">
+    </div>
+
+    <div class="section-label">Contact Lines</div>
+    <div id="contact-lines">
+      <div class="field contact-line-field" data-index="0">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <select class="icon-select" title="Line icon">
+            <option value="envelope" selected>✉</option>
+            <option value="phone">☏</option>
+            <option value="globe">🌐</option>
+            <option value="pin">📍</option>
+            <option value="link">🔗</option>
+            <option value="none">—</option>
+          </select>
+          <label style="flex:1;margin:0;">Line 1</label>
+          <span class="remove-line" title="Remove line" style="display:none;">✕</span>
+        </div>
+        <input type="text" value="alex@greystudio.com" maxlength="36">
+      </div>
+      <div class="field contact-line-field" data-index="1">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <select class="icon-select" title="Line icon">
+            <option value="envelope">✉</option>
+            <option value="phone" selected>☏</option>
+            <option value="globe">🌐</option>
+            <option value="pin">📍</option>
+            <option value="link">🔗</option>
+            <option value="none">—</option>
+          </select>
+          <label style="flex:1;margin:0;">Line 2</label>
+          <span class="remove-line" title="Remove line">✕</span>
+        </div>
+        <input type="text" value="+1  415  892  0047" maxlength="36">
+      </div>
+      <div class="field contact-line-field" data-index="2">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <select class="icon-select" title="Line icon">
+            <option value="envelope">✉</option>
+            <option value="phone">☏</option>
+            <option value="globe" selected>🌐</option>
+            <option value="pin">📍</option>
+            <option value="link">🔗</option>
+            <option value="none">—</option>
+          </select>
+          <label style="flex:1;margin:0;">Line 3</label>
+          <span class="remove-line" title="Remove line">✕</span>
+        </div>
+        <input type="text" value="greystudio.com" maxlength="36">
+      </div>
+    </div>
+    <button class="add-line-btn" id="add-line-btn">+ Add Line</button>
+
+    <div class="section-label">Card Texture</div>
+    <div class="field">
+      <select id="card-texture" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 10px;color:#e0e0e0;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg fill=&quot;%23999&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;<path d=&quot;M7 10l5 5 5-5z&quot;/&gt;</svg>');background-repeat:no-repeat;background-position:right 8px center;background-size:16px;">
+        <option value="smooth" selected>Smooth</option>
+        <option value="brushed">Brushed Metal</option>
+        <option value="linen">Linen</option>
+        <option value="carbon">Carbon Fiber</option>
+        <option value="leather">Leather</option>
+      </select>
+    </div>
+
+    <div class="section-label">Card Finish</div>
+    <div class="field">
+      <select id="card-finish" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 10px;color:#e0e0e0;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg fill=\"%23999\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>');background-repeat:no-repeat;background-position:right 8px center;background-size:16px;">
+        <option value="satin" selected>Satin</option>
+        <option value="matte">Matte</option>
+        <option value="mirror">Mirror</option>
+      </select>
+    </div>
+
+    <div class="section-label">Colors</div>
+    <div class="color-row">
+      <label>Card</label>
+      <input type="color" id="clr-card" value="#8a8a9a">
+    </div>
+    <div class="color-row">
+      <label>Emboss</label>
+      <input type="color" id="clr-emboss" value="#b0b0c0">
+    </div>
+    <div class="color-row">
+      <label>Gold Accent</label>
+      <input type="color" id="clr-gold" value="#c9a84c">
+    </div>
+    <div class="color-row">
+      <label>Title Text</label>
+      <input type="color" id="clr-title" value="#222233">
+    </div>
+    <div class="color-row">
+      <label>Contact Text</label>
+      <input type="color" id="clr-contact" value="#2a2a3a">
+    </div>
+
+    <div class="section-label">Background</div>
+    <div class="field">
+      <label>Scene Preset</label>
+      <select id="bg-preset" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 10px;color:#e0e0e0;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg fill=&quot;%23999&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;<path d=&quot;M7 10l5 5 5-5z&quot;/&gt;</svg>');background-repeat:no-repeat;background-position:right 8px center;background-size:16px;">
+        <option value="void" selected>Dark Void</option>
+        <option value="clouds">Ambient Clouds</option>
+        <option value="studio">Studio</option>
+        <option value="sunset">Sunset</option>
+        <option value="ocean">Deep Ocean</option>
+        <option value="forest">Midnight Forest</option>
+        <option value="gradient">Custom Gradient</option>
+        <option value="solid">Solid Color</option>
+      </select>
+    </div>
+    <div id="bg-solid-controls" style="display:none;">
+      <div class="color-row">
+        <label>Background Color</label>
+        <input type="color" id="bg-solid-color" value="#1a1a2e">
+      </div>
+    </div>
+    <div id="bg-gradient-controls" style="display:none;">
+      <div class="color-row">
+        <label>Top Color</label>
+        <input type="color" id="bg-grad-top" value="#1a0a2e">
+      </div>
+      <div class="color-row">
+        <label>Middle Color</label>
+        <input type="color" id="bg-grad-mid" value="#2a1a3e">
+      </div>
+      <div class="color-row">
+        <label>Bottom Color</label>
+        <input type="color" id="bg-grad-bottom" value="#0a1a2e">
+      </div>
+      <div class="field" style="margin-top:4px;">
+        <label>Angle</label>
+        <input type="range" id="bg-grad-angle" min="0" max="360" step="1" value="180"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+    </div>
+
+    <div class="section-label">Lighting</div>
+    <div class="field">
+      <label>Lighting Preset</label>
+      <select id="light-preset" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 10px;color:#e0e0e0;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg fill=&quot;%23999&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;<path d=&quot;M7 10l5 5 5-5z&quot;/&gt;</svg>');background-repeat:no-repeat;background-position:right 8px center;background-size:16px;">
+        <option value="default" selected>Default Studio</option>
+        <option value="dramatic">Dramatic</option>
+        <option value="warm">Warm Golden</option>
+        <option value="cool">Cool Blue</option>
+        <option value="neon">Neon Accent</option>
+        <option value="soft">Soft Diffused</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+    <div id="light-custom-controls" style="display:none;">
+      <div class="color-row">
+        <label>Key Light</label>
+        <input type="color" id="light-key-color" value="#fff5e6">
+      </div>
+      <div class="field">
+        <label>Key Intensity</label>
+        <input type="range" id="light-key-intensity" min="0" max="15" step="0.1" value="5.5"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="color-row">
+        <label>Rim Light</label>
+        <input type="color" id="light-rim-color" value="#c8d8ff">
+      </div>
+      <div class="field">
+        <label>Rim Intensity</label>
+        <input type="range" id="light-rim-intensity" min="0" max="10" step="0.1" value="3.5"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="color-row">
+        <label>Fill Light</label>
+        <input type="color" id="light-fill-color" value="#ffeedd">
+      </div>
+      <div class="field">
+        <label>Fill Intensity</label>
+        <input type="range" id="light-fill-intensity" min="0" max="8" step="0.1" value="2.5"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="color-row">
+        <label>Ambient</label>
+        <input type="color" id="light-ambient-color" value="#ffffff">
+      </div>
+      <div class="field">
+        <label>Ambient Intensity</label>
+        <input type="range" id="light-ambient-intensity" min="0" max="5" step="0.1" value="1.2"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="color-row">
+        <label>Spotlight</label>
+        <input type="color" id="light-spot-color" value="#fff8f0">
+      </div>
+      <div class="field">
+        <label>Spot Intensity</label>
+        <input type="range" id="light-spot-intensity" min="0" max="15" step="0.1" value="6.0"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="field">
+        <label>Exposure</label>
+        <input type="range" id="light-exposure" min="0.5" max="4" step="0.05" value="2.2"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:12px;">Point Lights</div>
+    <div id="point-lights-container"></div>
+    <button class="add-line-btn" id="add-point-light-btn">+ Add Point Light</button>
+
+    <div class="section-label" style="margin-top:12px;">Area Lights</div>
+    <div id="area-lights-container"></div>
+    <button class="add-line-btn" id="add-area-light-btn">+ Add Area Light</button>
+
+    <div class="section-label" style="margin-top:12px;">HDRI Environment</div>
+    <div class="upload-area" id="hdri-upload-area">
+      <p><span>Click to upload HDRI</span> or drag & drop<br>.hdr or .exr file</p>
+      <input type="file" id="hdri-input" accept=".hdr,.exr">
+    </div>
+    <div id="hdri-preview" style="display:none;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">🌅</span>
+        <span class="logo-name" id="hdri-name" style="font-size:11px;color:rgba(255,255,255,0.5);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        <span class="remove-logo" id="remove-hdri" title="Remove HDRI">✕</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Env Map Intensity</label>
+      <input type="range" id="hdri-intensity" min="0" max="5" step="0.05" value="1.2"
+        style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+    </div>
+    <div class="field">
+      <label>Env Rotation</label>
+      <input type="range" id="hdri-rotation" min="0" max="360" step="1" value="0"
+        style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+    </div>
+    <div class="field" style="margin-top:4px;">
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+        <input type="checkbox" id="hdri-as-background" style="accent-color:#c9a84c;cursor:pointer;"> Use as background
+      </label>
+    </div>
+
+    <div class="section-label">Logo Upload & Position</div>
+    <div class="upload-area" id="upload-area">
+      <p><span>Click to upload</span> or drag & drop<br>PNG or SVG recommended</p>
+      <input type="file" id="logo-input" accept="image/*">
+    </div>
+    <div class="logo-preview" id="logo-preview">
+      <img id="logo-thumb" src="" alt="logo">
+      <span class="logo-name" id="logo-name"></span>
+      <span class="remove-logo" id="remove-logo">✕</span>
+    </div>
+
+    <div id="logo-position-controls" style="display:none;">
+      <div class="field" style="margin-top:8px;">
+        <label>Horizontal Position</label>
+        <input type="range" id="logo-pos-x" min="-1.5" max="1.5" step="0.01" value="1.15"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="field">
+        <label>Vertical Position</label>
+        <input type="range" id="logo-pos-y" min="-0.8" max="0.8" step="0.01" value="0.5"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="field">
+        <label>Scale</label>
+        <input type="range" id="logo-scale" min="0.2" max="1.5" step="0.01" value="0.55"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div class="field">
+        <label>Rotation</label>
+        <input type="range" id="logo-rotation" min="-180" max="180" step="1" value="0"
+          style="width:100%;accent-color:#c9a84c;cursor:pointer;">
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:4px;margin-top:6px;margin-bottom:4px;">
+        <button class="logo-preset-btn" data-x="-1.15" data-y="0.5" title="Top Left">↖ TL</button>
+        <button class="logo-preset-btn" data-x="0" data-y="0.5" title="Top Center">↑ TC</button>
+        <button class="logo-preset-btn" data-x="1.15" data-y="0.5" title="Top Right">↗ TR</button>
+        <button class="logo-preset-btn" data-x="0" data-y="0" title="Center">◎ C</button>
+        <button class="logo-preset-btn" data-x="-1.15" data-y="-0.5" title="Bottom Left">↙ BL</button>
+        <button class="logo-preset-btn" data-x="1.15" data-y="-0.5" title="Bottom Right">↘ BR</button>
+      </div>
+    </div>
+
+    <button class="apply-btn" id="apply-btn">Apply Changes</button>
+  </div>
+
+  <script type="module" src="/scene.js"></script>
+</body>
+</html>

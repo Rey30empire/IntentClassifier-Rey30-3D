@@ -1,0 +1,32 @@
+{
+  "asset_id": "stylized_female_character",
+  "asset_path": "01_Personajes/stylized_female_character",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/stylized_female_character/geometry/glb/stylized+female+character+3d+model.glb",
+  "duplicate_variants_detected": [
+    "01_Personajes/stylized_female_character/source_archives/stylized+female+character+3d+model__from_root.zip",
+    "01_Personajes/stylized_female_character/source_archives/stylized+female+character+3d+model__from_stylized_female_character_3d_model.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/stylized_female_character/source_archives/stylized+female+character+3d+model__from_root.zip",
+      "01_Personajes/stylized_female_character/source_archives/stylized+female+character+3d+model__from_stylized_female_character_3d_model.zip",
+      "01_Personajes/stylized_female_character/source_archives/stylized+female+character+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/stylized_female_character/geometry/glb/stylized+female+character+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 3,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

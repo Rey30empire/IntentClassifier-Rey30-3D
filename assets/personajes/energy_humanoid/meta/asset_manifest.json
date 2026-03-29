@@ -1,0 +1,25 @@
+{
+  "asset_id": "energy_humanoid",
+  "asset_path": "01_Personajes/energy_humanoid",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/energy_humanoid/source_archives/energy+humanoid+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 1,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

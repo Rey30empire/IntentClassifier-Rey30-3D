@@ -1,0 +1,510 @@
+[
+  {
+    "scene_id": "car-game",
+    "title": "Car Game",
+    "scene_path": "escenas_threejs/01_Juegos/car-game",
+    "category": "escenas_threejs/01_Juegos",
+    "scene_kind": "gameplay",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "static-html",
+      "package_json": null,
+      "entry_html": "escenas_threejs/01_Juegos/car-game/index.html",
+      "primary_script": null,
+      "npm_scripts": {},
+      "recommended_command": "open escenas_threejs/01_Juegos/car-game/index.html"
+    },
+    "stats": {
+      "code_files": 1,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/01_Juegos/car-game/index.html"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "forest-camp-game",
+    "title": "Forest Camp Game",
+    "scene_path": "escenas_threejs/01_Juegos/forest-camp-game",
+    "category": "escenas_threejs/01_Juegos",
+    "scene_kind": "gameplay",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/01_Juegos/forest-camp-game/package.json",
+      "entry_html": "escenas_threejs/01_Juegos/forest-camp-game/index.html",
+      "primary_script": "escenas_threejs/01_Juegos/forest-camp-game/main.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 21,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/01_Juegos/forest-camp-game/bridge.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/bush.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/campfire.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/character.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/coin.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/dice.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/env-settings.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/flower.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/game.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/grass.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/grid.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/index.html",
+      "escenas_threejs/01_Juegos/forest-camp-game/log.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/main.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/mushroom.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/pond.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/rock.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/scene.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/tent.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/tile.js",
+      "escenas_threejs/01_Juegos/forest-camp-game/tree.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "game-3d",
+    "title": "3D Game",
+    "scene_path": "escenas_threejs/01_Juegos/game-3d",
+    "category": "escenas_threejs/01_Juegos",
+    "scene_kind": "gameplay",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/01_Juegos/game-3d/package.json",
+      "entry_html": "escenas_threejs/01_Juegos/game-3d/index.html",
+      "primary_script": "escenas_threejs/01_Juegos/game-3d/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/01_Juegos/game-3d/index.html",
+      "escenas_threejs/01_Juegos/game-3d/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "platform-game-3d-scene",
+    "title": "Platform Game 3D Scene",
+    "scene_path": "escenas_threejs/01_Juegos/platform-game-3d-scene",
+    "category": "escenas_threejs/01_Juegos",
+    "scene_kind": "gameplay",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/01_Juegos/platform-game-3d-scene/package.json",
+      "entry_html": "escenas_threejs/01_Juegos/platform-game-3d-scene/index.html",
+      "primary_script": "escenas_threejs/01_Juegos/platform-game-3d-scene/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/01_Juegos/platform-game-3d-scene/index.html",
+      "escenas_threejs/01_Juegos/platform-game-3d-scene/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "scifi-shooter-tech-helmets",
+    "title": "Sci-fi Shooter With Tech Helmets",
+    "scene_path": "escenas_threejs/01_Juegos/scifi-shooter-tech-helmets",
+    "category": "escenas_threejs/01_Juegos",
+    "scene_kind": "gameplay",
+    "runtime": "web",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "static-html",
+      "package_json": null,
+      "entry_html": "escenas_threejs/01_Juegos/scifi-shooter-tech-helmets/index.html",
+      "primary_script": null,
+      "npm_scripts": {},
+      "recommended_command": "open escenas_threejs/01_Juegos/scifi-shooter-tech-helmets/index.html"
+    },
+    "stats": {
+      "code_files": 1,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/01_Juegos/scifi-shooter-tech-helmets/index.html"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "playground-garden",
+    "title": "Playground Garden",
+    "scene_path": "escenas_threejs/entornos_y_Simulacion/playground-garden",
+    "category": "escenas_threejs/entornos_y_Simulacion",
+    "scene_kind": "simulation",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/entornos_y_Simulacion/playground-garden/package.json",
+      "entry_html": "escenas_threejs/entornos_y_Simulacion/playground-garden/index.html",
+      "primary_script": "escenas_threejs/entornos_y_Simulacion/playground-garden/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 16,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/bench.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/bush.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/character.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/env-settings.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/fence.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/flower.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/garden.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/gui-panel.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/index.html",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/interaction-box.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/landscape.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/road.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/scene.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/skeleton-animation.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/tree-generator.js",
+      "escenas_threejs/entornos_y_Simulacion/playground-garden/water.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "water-simulation-above-below",
+    "title": "Water Simulation Above and Below",
+    "scene_path": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below",
+    "category": "escenas_threejs/entornos_y_Simulacion",
+    "scene_kind": "simulation",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/package.json",
+      "entry_html": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/index.html",
+      "primary_script": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/index.html",
+      "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "gpu-terrain-forge",
+    "title": "GPU Terrain Forge",
+    "scene_path": "escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge",
+    "category": "escenas_threejs/03_Herramientas_y_Editores",
+    "scene_kind": "tooling",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "static-html",
+      "package_json": null,
+      "entry_html": "escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge/index.html",
+      "primary_script": null,
+      "npm_scripts": {},
+      "recommended_command": "open escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge/index.html"
+    },
+    "stats": {
+      "code_files": 1,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge/index.html"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "interactive-3d-skatepark-editor",
+    "title": "Interactive 3D Skatepark Editor",
+    "scene_path": "escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor",
+    "category": "escenas_threejs/03_Herramientas_y_Editores",
+    "scene_kind": "tooling",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "static-html",
+      "package_json": null,
+      "entry_html": "escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor/index.html",
+      "primary_script": null,
+      "npm_scripts": {},
+      "recommended_command": "open escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor/index.html"
+    },
+    "stats": {
+      "code_files": 1,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor/index.html"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "matcap-generator-v25",
+    "title": "Matcap Generator v25",
+    "scene_path": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25",
+    "category": "escenas_threejs/03_Herramientas_y_Editores",
+    "scene_kind": "tooling",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/package.json",
+      "entry_html": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/index.html",
+      "primary_script": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/index.html",
+      "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "matcap-generator-v28",
+    "title": "Matcap Generator v28",
+    "scene_path": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28",
+    "category": "escenas_threejs/03_Herramientas_y_Editores",
+    "scene_kind": "tooling",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/package.json",
+      "entry_html": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/index.html",
+      "primary_script": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/index.html",
+      "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "scene-variation-new-content",
+    "title": "Scene variation with new content",
+    "scene_path": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content",
+    "category": "escenas_threejs/03_Herramientas_y_Editores",
+    "scene_kind": "tooling",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/package.json",
+      "entry_html": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/index.html",
+      "primary_script": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/game.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 7,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/editor.js",
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/game.js",
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/index.html",
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/levels.js",
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/pathfinder.js",
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/player.js",
+      "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/sceneBuilder.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "sunny-block-planner",
+    "title": "Sunny Block Planner",
+    "scene_path": "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner",
+    "category": "escenas_threejs/03_Herramientas_y_Editores",
+    "scene_kind": "tooling",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner/package.json",
+      "entry_html": null,
+      "primary_script": "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner/main.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 1,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner/main.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "blink-voice-react",
+    "title": "Blink Voice React",
+    "scene_path": "escenas_threejs/04_Experiencias_Web/blink-voice-react",
+    "category": "escenas_threejs/04_Experiencias_Web",
+    "scene_kind": "web-experience",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/04_Experiencias_Web/blink-voice-react/package.json",
+      "entry_html": "escenas_threejs/04_Experiencias_Web/blink-voice-react/index.html",
+      "primary_script": "escenas_threejs/04_Experiencias_Web/blink-voice-react/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/04_Experiencias_Web/blink-voice-react/index.html",
+      "escenas_threejs/04_Experiencias_Web/blink-voice-react/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "minimalist-3d-business-card",
+    "title": "Minimalist 3D Business Card",
+    "scene_path": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card",
+    "category": "escenas_threejs/04_Experiencias_Web",
+    "scene_kind": "web-experience",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "vite",
+      "package_json": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/package.json",
+      "entry_html": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/index.html",
+      "primary_script": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/scene.js",
+      "npm_scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "recommended_command": "npm install && npm run dev"
+    },
+    "stats": {
+      "code_files": 2,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/index.html",
+      "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/scene.js"
+    ],
+    "uses_external_asset_catalog": false
+  },
+  {
+    "scene_id": "website-3d-digital-oasis",
+    "title": "3D Website - The Digital Oasis",
+    "scene_path": "escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis",
+    "category": "escenas_threejs/04_Experiencias_Web",
+    "scene_kind": "web-experience",
+    "runtime": "threejs",
+    "source_type": "procedural_code",
+    "launch": {
+      "build_mode": "static-html",
+      "package_json": null,
+      "entry_html": "escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis/index.html",
+      "primary_script": null,
+      "npm_scripts": {},
+      "recommended_command": "open escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis/index.html"
+    },
+    "stats": {
+      "code_files": 1,
+      "binary_assets": 0
+    },
+    "binary_assets": [],
+    "code_files": [
+      "escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis/index.html"
+    ],
+    "uses_external_asset_catalog": false
+  }
+]

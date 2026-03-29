@@ -1,0 +1,31 @@
+{
+  "scene_id": "matcap-generator-v28",
+  "title": "Matcap Generator v28",
+  "scene_path": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/matcap-generator-v28",
+  "category": "05_Escenas_ThreeJS/03_Herramientas_y_Editores",
+  "scene_kind": "tooling",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/matcap-generator-v28/package.json",
+    "entry_html": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/matcap-generator-v28/index.html",
+    "primary_script": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/matcap-generator-v28/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 2,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/matcap-generator-v28/index.html",
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/matcap-generator-v28/scene.js"
+  ],
+  "uses_external_asset_catalog": false
+}

@@ -1,0 +1,50 @@
+{
+  "scene_id": "forest-camp-game",
+  "title": "Forest Camp Game",
+  "scene_path": "05_Escenas_ThreeJS/01_Juegos/forest-camp-game",
+  "category": "05_Escenas_ThreeJS/01_Juegos",
+  "scene_kind": "gameplay",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/package.json",
+    "entry_html": "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/index.html",
+    "primary_script": "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/main.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 21,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/bridge.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/bush.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/campfire.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/character.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/coin.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/dice.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/env-settings.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/flower.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/game.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/grass.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/grid.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/index.html",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/log.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/main.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/mushroom.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/pond.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/rock.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/scene.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/tent.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/tile.js",
+    "05_Escenas_ThreeJS/01_Juegos/forest-camp-game/tree.js"
+  ],
+  "uses_external_asset_catalog": false
+}

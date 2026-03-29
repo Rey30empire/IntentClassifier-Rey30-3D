@@ -1,0 +1,26 @@
+{
+  "scene_id": "gpu-terrain-forge",
+  "title": "GPU Terrain Forge",
+  "scene_path": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/gpu-terrain-forge",
+  "category": "05_Escenas_ThreeJS/03_Herramientas_y_Editores",
+  "scene_kind": "tooling",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "static-html",
+    "package_json": null,
+    "entry_html": "05_Escenas_ThreeJS/03_Herramientas_y_Editores/gpu-terrain-forge/index.html",
+    "primary_script": null,
+    "npm_scripts": {},
+    "recommended_command": "open 05_Escenas_ThreeJS/03_Herramientas_y_Editores/gpu-terrain-forge/index.html"
+  },
+  "stats": {
+    "code_files": 1,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/03_Herramientas_y_Editores/gpu-terrain-forge/index.html"
+  ],
+  "uses_external_asset_catalog": false
+}

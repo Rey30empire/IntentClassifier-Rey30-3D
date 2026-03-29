@@ -1,0 +1,25 @@
+{
+  "asset_id": "miniature_diorama",
+  "asset_path": "02_Entornos/Escenas/miniature_diorama",
+  "category": "02_Entornos/Escenas",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "02_Entornos/Escenas/miniature_diorama/source_archives/miniature+diorama+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 1,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

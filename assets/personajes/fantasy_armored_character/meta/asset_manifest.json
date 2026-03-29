@@ -1,0 +1,25 @@
+{
+  "asset_id": "fantasy_armored_character",
+  "asset_path": "01_Personajes/fantasy_armored_character",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/fantasy_armored_character/source_archives/fantasy+armored+character+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 1,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

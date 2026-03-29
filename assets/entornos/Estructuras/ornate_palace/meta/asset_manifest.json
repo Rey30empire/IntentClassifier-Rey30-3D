@@ -1,0 +1,25 @@
+{
+  "asset_id": "ornate_palace",
+  "asset_path": "02_Entornos/Estructuras/ornate_palace",
+  "category": "02_Entornos/Estructuras",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "02_Entornos/Estructuras/ornate_palace/source_archives/ornate+palace+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 1,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

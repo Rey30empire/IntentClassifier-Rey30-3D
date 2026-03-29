@@ -1,0 +1,32 @@
+{
+  "asset_id": "blue_fantasy_dress",
+  "asset_path": "03_Props/Vestuario/blue_fantasy_dress",
+  "category": "03_Props/Vestuario",
+  "preferred_runtime_entry": "03_Props/Vestuario/blue_fantasy_dress/geometry/glb/blue+fantasy+dress+3d+model.glb",
+  "duplicate_variants_detected": [
+    "03_Props/Vestuario/blue_fantasy_dress/source_archives/blue+fantasy+dress+3d+model__from_root.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "03_Props/Vestuario/blue_fantasy_dress/source_archives/blue+fantasy+dress+3d+model__from_root.zip",
+      "03_Props/Vestuario/blue_fantasy_dress/source_archives/blue+fantasy+dress+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "03_Props/Vestuario/blue_fantasy_dress/geometry/glb/blue+fantasy+dress+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "03_Props/Vestuario/blue_fantasy_dress/geometry/stl/blue+fantasy+dress+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

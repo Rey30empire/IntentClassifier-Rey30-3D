@@ -1,0 +1,995 @@
+{
+  "generated_at": "2026-03-29T01:43:19.431Z",
+  "stats": {
+    "assets": 43,
+    "scenes": 16,
+    "runtime_ready_assets": 21,
+    "procedural_scenes": 16
+  },
+  "assets": [
+    {
+      "asset_id": "anime_girl",
+      "asset_path": "personajes/anime_girl",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/anime_girl/geometry/glb/anime+girl+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "blue_crystal_humanoid",
+      "asset_path": "personajes/blue_crystal_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "blue_humanoid",
+      "asset_path": "personajes/blue_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "butterfly_fairy",
+      "asset_path": "personajes/butterfly_fairy",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "cosmic_humanoid",
+      "asset_path": "personajes/cosmic_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "crystal_human",
+      "asset_path": "personajes/crystal_human",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 3,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "dark_armored_knight",
+      "asset_path": "personajes/dark_armored_knight",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/dark_armored_knight/geometry/glb/dark+armored+knight+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "energy_humanoid",
+      "asset_path": "personajes/energy_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 1,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "faceted_humanoid",
+      "asset_path": "personajes/faceted_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/faceted_humanoid/geometry/glb/faceted+humanoid+3d+model.glb",
+      "source_archives": 3,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fantasy_armored_character",
+      "asset_path": "personajes/fantasy_armored_character",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 1,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "fantasy_character",
+      "asset_path": "personajes/fantasy_character",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/fantasy_character/geometry/glb/fantasy+character+3d+model.glb",
+      "source_archives": 4,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 3,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fantasy_elemental",
+      "asset_path": "personajes/fantasy_elemental",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/fantasy_elemental/geometry/glb/fantasy+elemental+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fiery_demon",
+      "asset_path": "personajes/fiery_demon",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/fiery_demon/geometry/glb/fiery+demon+3d+model.glb",
+      "source_archives": 3,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fiery_humanoid",
+      "asset_path": "personajes/fiery_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/fiery_humanoid/geometry/glb/fiery+humanoid+3d+model__from_fiery_humanoid_3d_model.glb",
+      "source_archives": 7,
+      "geometry_glb": 3,
+      "geometry_fbx": 0,
+      "geometry_stl": 2,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 5,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fiery_mascot",
+      "asset_path": "personajes/fiery_mascot",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "flower_creature",
+      "asset_path": "personajes/flower_creature",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/flower_creature/geometry/glb/flower+creature+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "futuristic_humanoid",
+      "asset_path": "personajes/futuristic_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/futuristic_humanoid/geometry/glb/futuristic+humanoid+3d+model.glb",
+      "source_archives": 4,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "glowing_armored_suit",
+      "asset_path": "personajes/glowing_armored_suit",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "glowing_energy_humanoid",
+      "asset_path": "personajes/glowing_energy_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/glowing_energy_humanoid/geometry/glb/glowing+energy+humanoid+3d+model (1).glb",
+      "source_archives": 4,
+      "geometry_glb": 2,
+      "geometry_fbx": 1,
+      "geometry_stl": 2,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "humanoid",
+      "asset_path": "personajes/humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "ice_fire_character",
+      "asset_path": "personajes/ice_fire_character",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 1,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "lightning_bolt_character",
+      "asset_path": "personajes/lightning_bolt_character",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "personaje_elemental_hielo_fuego",
+      "asset_path": "personajes/personaje_elemental_hielo_fuego",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/personaje_elemental_hielo_fuego/geometry/glb/personaje-elemental-hielo-fuego.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "pink_ballerina_doll",
+      "asset_path": "personajes/pink_ballerina_doll",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/pink_ballerina_doll/geometry/glb/pink+ballerina+doll+3d+model.glb",
+      "source_archives": 1,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "princess_peach",
+      "asset_path": "personajes/princess_peach",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/princess_peach/geometry/glb/princess+peach+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "silver_humanoid",
+      "asset_path": "personajes/silver_humanoid",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/silver_humanoid/geometry/glb/silver+humanoid+3d+model.glb",
+      "source_archives": 0,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "steampunk_plush",
+      "asset_path": "personajes/steampunk_plush",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "stylized_female_character",
+      "asset_path": "personajes/stylized_female_character",
+      "category": "personajes",
+      "preferred_runtime_entry": "personajes/stylized_female_character/geometry/glb/stylized+female+character+3d+model.glb",
+      "source_archives": 3,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 2,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "water_elemental_man",
+      "asset_path": "personajes/water_elemental_man",
+      "category": "personajes",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "miniature_diorama",
+      "asset_path": "entornos/Escenas/miniature_diorama",
+      "category": "entornos/Escenas",
+      "preferred_runtime_entry": null,
+      "source_archives": 1,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "fairy_house",
+      "asset_path": "entornos/Estructuras/fairy_house",
+      "category": "entornos/Estructuras",
+      "preferred_runtime_entry": "entornos/Estructuras/fairy_house/geometry/glb/fairy+house+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fantasy_cottage",
+      "asset_path": "entornos/Estructuras/fantasy_cottage",
+      "category": "entornos/Estructuras",
+      "preferred_runtime_entry": "entornos/Estructuras/fantasy_cottage/geometry/glb/fantasy+cottage+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "fantasy_treehouse",
+      "asset_path": "entornos/Estructuras/fantasy_treehouse",
+      "category": "entornos/Estructuras",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "ornate_palace",
+      "asset_path": "entornos/Estructuras/ornate_palace",
+      "category": "entornos/Estructuras",
+      "preferred_runtime_entry": null,
+      "source_archives": 1,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "futuristic_assault_rifle",
+      "asset_path": "props/Armas/futuristic_assault_rifle",
+      "category": "props/Armas",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "ornate_pistol",
+      "asset_path": "props/Armas/ornate_pistol",
+      "category": "props/Armas",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "blue_fantasy_dress",
+      "asset_path": "props/Vestuario/blue_fantasy_dress",
+      "category": "props/Vestuario",
+      "preferred_runtime_entry": "props/Vestuario/blue_fantasy_dress/geometry/glb/blue+fantasy+dress+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "cowgirl_outfit",
+      "asset_path": "props/Vestuario/cowgirl_outfit",
+      "category": "props/Vestuario",
+      "preferred_runtime_entry": null,
+      "source_archives": 2,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "luxury_ball_gown",
+      "asset_path": "props/Vestuario/luxury_ball_gown",
+      "category": "props/Vestuario",
+      "preferred_runtime_entry": "props/Vestuario/luxury_ball_gown/geometry/glb/luxury+ball+gown+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "winged_high_heel",
+      "asset_path": "props/Vestuario/winged_high_heel",
+      "category": "props/Vestuario",
+      "preferred_runtime_entry": "props/Vestuario/winged_high_heel/geometry/glb/winged+high+heel+3d+model.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "meshy_ai_lumis",
+      "asset_path": "animaciones/Biped/meshy_ai_lumis",
+      "category": "animaciones/Biped",
+      "preferred_runtime_entry": null,
+      "source_archives": 4,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    },
+    {
+      "asset_id": "02603854_46dd_45cc_a196_5932a1a2a737",
+      "asset_path": "por_clasificar/02603854_46dd_45cc_a196_5932a1a2a737",
+      "category": "por_clasificar",
+      "preferred_runtime_entry": "por_clasificar/02603854_46dd_45cc_a196_5932a1a2a737/geometry/glb/02603854-46dd-45cc-a196-5932a1a2a737.glb",
+      "source_archives": 2,
+      "geometry_glb": 1,
+      "geometry_fbx": 0,
+      "geometry_stl": 1,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 1,
+      "runtime_ready": true
+    },
+    {
+      "asset_id": "workspace_e252e028_c816_4b16_955c_4c07a76516b9",
+      "asset_path": "por_clasificar/workspace_e252e028_c816_4b16_955c_4c07a76516b9",
+      "category": "por_clasificar",
+      "preferred_runtime_entry": null,
+      "source_archives": 1,
+      "geometry_glb": 0,
+      "geometry_fbx": 0,
+      "geometry_stl": 0,
+      "textures": 0,
+      "imports": 0,
+      "duplicate_variants": 0,
+      "runtime_ready": false
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": "car-game",
+      "title": "Car Game",
+      "scene_path": "escenas_threejs/01_Juegos/car-game",
+      "category": "escenas_threejs/01_Juegos",
+      "scene_kind": "gameplay",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "static-html",
+        "package_json": null,
+        "entry_html": "escenas_threejs/01_Juegos/car-game/index.html",
+        "primary_script": null,
+        "npm_scripts": {},
+        "recommended_command": "open escenas_threejs/01_Juegos/car-game/index.html"
+      },
+      "stats": {
+        "code_files": 1,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "forest-camp-game",
+      "title": "Forest Camp Game",
+      "scene_path": "escenas_threejs/01_Juegos/forest-camp-game",
+      "category": "escenas_threejs/01_Juegos",
+      "scene_kind": "gameplay",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/01_Juegos/forest-camp-game/package.json",
+        "entry_html": "escenas_threejs/01_Juegos/forest-camp-game/index.html",
+        "primary_script": "escenas_threejs/01_Juegos/forest-camp-game/main.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 21,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "game-3d",
+      "title": "3D Game",
+      "scene_path": "escenas_threejs/01_Juegos/game-3d",
+      "category": "escenas_threejs/01_Juegos",
+      "scene_kind": "gameplay",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/01_Juegos/game-3d/package.json",
+        "entry_html": "escenas_threejs/01_Juegos/game-3d/index.html",
+        "primary_script": "escenas_threejs/01_Juegos/game-3d/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "platform-game-3d-scene",
+      "title": "Platform Game 3D Scene",
+      "scene_path": "escenas_threejs/01_Juegos/platform-game-3d-scene",
+      "category": "escenas_threejs/01_Juegos",
+      "scene_kind": "gameplay",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/01_Juegos/platform-game-3d-scene/package.json",
+        "entry_html": "escenas_threejs/01_Juegos/platform-game-3d-scene/index.html",
+        "primary_script": "escenas_threejs/01_Juegos/platform-game-3d-scene/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "scifi-shooter-tech-helmets",
+      "title": "Sci-fi Shooter With Tech Helmets",
+      "scene_path": "escenas_threejs/01_Juegos/scifi-shooter-tech-helmets",
+      "category": "escenas_threejs/01_Juegos",
+      "scene_kind": "gameplay",
+      "runtime": "web",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "static-html",
+        "package_json": null,
+        "entry_html": "escenas_threejs/01_Juegos/scifi-shooter-tech-helmets/index.html",
+        "primary_script": null,
+        "npm_scripts": {},
+        "recommended_command": "open escenas_threejs/01_Juegos/scifi-shooter-tech-helmets/index.html"
+      },
+      "stats": {
+        "code_files": 1,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "playground-garden",
+      "title": "Playground Garden",
+      "scene_path": "escenas_threejs/entornos_y_Simulacion/playground-garden",
+      "category": "escenas_threejs/entornos_y_Simulacion",
+      "scene_kind": "simulation",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/entornos_y_Simulacion/playground-garden/package.json",
+        "entry_html": "escenas_threejs/entornos_y_Simulacion/playground-garden/index.html",
+        "primary_script": "escenas_threejs/entornos_y_Simulacion/playground-garden/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 16,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "water-simulation-above-below",
+      "title": "Water Simulation Above and Below",
+      "scene_path": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below",
+      "category": "escenas_threejs/entornos_y_Simulacion",
+      "scene_kind": "simulation",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/package.json",
+        "entry_html": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/index.html",
+        "primary_script": "escenas_threejs/entornos_y_Simulacion/water-simulation-above-below/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "gpu-terrain-forge",
+      "title": "GPU Terrain Forge",
+      "scene_path": "escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge",
+      "category": "escenas_threejs/03_Herramientas_y_Editores",
+      "scene_kind": "tooling",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "static-html",
+        "package_json": null,
+        "entry_html": "escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge/index.html",
+        "primary_script": null,
+        "npm_scripts": {},
+        "recommended_command": "open escenas_threejs/03_Herramientas_y_Editores/gpu-terrain-forge/index.html"
+      },
+      "stats": {
+        "code_files": 1,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "interactive-3d-skatepark-editor",
+      "title": "Interactive 3D Skatepark Editor",
+      "scene_path": "escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor",
+      "category": "escenas_threejs/03_Herramientas_y_Editores",
+      "scene_kind": "tooling",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "static-html",
+        "package_json": null,
+        "entry_html": "escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor/index.html",
+        "primary_script": null,
+        "npm_scripts": {},
+        "recommended_command": "open escenas_threejs/03_Herramientas_y_Editores/interactive-3d-skatepark-editor/index.html"
+      },
+      "stats": {
+        "code_files": 1,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "matcap-generator-v25",
+      "title": "Matcap Generator v25",
+      "scene_path": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25",
+      "category": "escenas_threejs/03_Herramientas_y_Editores",
+      "scene_kind": "tooling",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/package.json",
+        "entry_html": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/index.html",
+        "primary_script": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v25/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "matcap-generator-v28",
+      "title": "Matcap Generator v28",
+      "scene_path": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28",
+      "category": "escenas_threejs/03_Herramientas_y_Editores",
+      "scene_kind": "tooling",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/package.json",
+        "entry_html": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/index.html",
+        "primary_script": "escenas_threejs/03_Herramientas_y_Editores/matcap-generator-v28/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "scene-variation-new-content",
+      "title": "Scene variation with new content",
+      "scene_path": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content",
+      "category": "escenas_threejs/03_Herramientas_y_Editores",
+      "scene_kind": "tooling",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/package.json",
+        "entry_html": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/index.html",
+        "primary_script": "escenas_threejs/03_Herramientas_y_Editores/scene-variation-new-content/game.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 7,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "sunny-block-planner",
+      "title": "Sunny Block Planner",
+      "scene_path": "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner",
+      "category": "escenas_threejs/03_Herramientas_y_Editores",
+      "scene_kind": "tooling",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner/package.json",
+        "entry_html": null,
+        "primary_script": "escenas_threejs/03_Herramientas_y_Editores/sunny-block-planner/main.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 1,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "blink-voice-react",
+      "title": "Blink Voice React",
+      "scene_path": "escenas_threejs/04_Experiencias_Web/blink-voice-react",
+      "category": "escenas_threejs/04_Experiencias_Web",
+      "scene_kind": "web-experience",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/04_Experiencias_Web/blink-voice-react/package.json",
+        "entry_html": "escenas_threejs/04_Experiencias_Web/blink-voice-react/index.html",
+        "primary_script": "escenas_threejs/04_Experiencias_Web/blink-voice-react/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "minimalist-3d-business-card",
+      "title": "Minimalist 3D Business Card",
+      "scene_path": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card",
+      "category": "escenas_threejs/04_Experiencias_Web",
+      "scene_kind": "web-experience",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "vite",
+        "package_json": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/package.json",
+        "entry_html": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/index.html",
+        "primary_script": "escenas_threejs/04_Experiencias_Web/minimalist-3d-business-card/scene.js",
+        "npm_scripts": {
+          "dev": "vite",
+          "build": "vite build",
+          "preview": "vite preview"
+        },
+        "recommended_command": "npm install && npm run dev"
+      },
+      "stats": {
+        "code_files": 2,
+        "binary_assets": 0
+      }
+    },
+    {
+      "scene_id": "website-3d-digital-oasis",
+      "title": "3D Website - The Digital Oasis",
+      "scene_path": "escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis",
+      "category": "escenas_threejs/04_Experiencias_Web",
+      "scene_kind": "web-experience",
+      "runtime": "threejs",
+      "source_type": "procedural_code",
+      "launch": {
+        "build_mode": "static-html",
+        "package_json": null,
+        "entry_html": "escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis/index.html",
+        "primary_script": null,
+        "npm_scripts": {},
+        "recommended_command": "open escenas_threejs/04_Experiencias_Web/website-3d-digital-oasis/index.html"
+      },
+      "stats": {
+        "code_files": 1,
+        "binary_assets": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "scene_id": "minimalist-3d-business-card",
+  "title": "Minimalist 3D Business Card",
+  "scene_path": "05_Escenas_ThreeJS/04_Experiencias_Web/minimalist-3d-business-card",
+  "category": "05_Escenas_ThreeJS/04_Experiencias_Web",
+  "scene_kind": "web-experience",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/04_Experiencias_Web/minimalist-3d-business-card/package.json",
+    "entry_html": "05_Escenas_ThreeJS/04_Experiencias_Web/minimalist-3d-business-card/index.html",
+    "primary_script": "05_Escenas_ThreeJS/04_Experiencias_Web/minimalist-3d-business-card/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 2,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/04_Experiencias_Web/minimalist-3d-business-card/index.html",
+    "05_Escenas_ThreeJS/04_Experiencias_Web/minimalist-3d-business-card/scene.js"
+  ],
+  "uses_external_asset_catalog": false
+}

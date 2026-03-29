@@ -1,0 +1,45 @@
+{
+  "scene_id": "playground-garden",
+  "title": "Playground Garden",
+  "scene_path": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden",
+  "category": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion",
+  "scene_kind": "simulation",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/package.json",
+    "entry_html": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/index.html",
+    "primary_script": "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 16,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/bench.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/bush.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/character.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/env-settings.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/fence.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/flower.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/garden.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/gui-panel.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/index.html",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/interaction-box.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/landscape.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/road.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/scene.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/skeleton-animation.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/tree-generator.js",
+    "05_Escenas_ThreeJS/02_Entornos_y_Simulacion/playground-garden/water.js"
+  ],
+  "uses_external_asset_catalog": false
+}

@@ -1,0 +1,27 @@
+{
+  "asset_id": "silver_humanoid",
+  "asset_path": "01_Personajes/silver_humanoid",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/silver_humanoid/geometry/glb/silver+humanoid+3d+model.glb",
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [],
+    "geometry_glb": [
+      "01_Personajes/silver_humanoid/geometry/glb/silver+humanoid+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "01_Personajes/silver_humanoid/geometry/stl/silver+humanoid+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 0,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

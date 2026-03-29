@@ -1,0 +1,28 @@
+{
+  "asset_id": "dark_armored_knight",
+  "asset_path": "01_Personajes/dark_armored_knight",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/dark_armored_knight/geometry/glb/dark+armored+knight+3d+model.glb",
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/dark_armored_knight/source_archives/dark+armored+knight+3d+model+FBX.zip",
+      "01_Personajes/dark_armored_knight/source_archives/dark+armored+knight+3d+model+OBJ.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/dark_armored_knight/geometry/glb/dark+armored+knight+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

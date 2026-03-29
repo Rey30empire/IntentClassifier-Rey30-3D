@@ -1,0 +1,31 @@
+{
+  "scene_id": "platform-game-3d-scene",
+  "title": "Platform Game 3D Scene",
+  "scene_path": "05_Escenas_ThreeJS/01_Juegos/platform-game-3d-scene",
+  "category": "05_Escenas_ThreeJS/01_Juegos",
+  "scene_kind": "gameplay",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "vite",
+    "package_json": "05_Escenas_ThreeJS/01_Juegos/platform-game-3d-scene/package.json",
+    "entry_html": "05_Escenas_ThreeJS/01_Juegos/platform-game-3d-scene/index.html",
+    "primary_script": "05_Escenas_ThreeJS/01_Juegos/platform-game-3d-scene/scene.js",
+    "npm_scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "recommended_command": "npm install && npm run dev"
+  },
+  "stats": {
+    "code_files": 2,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/01_Juegos/platform-game-3d-scene/index.html",
+    "05_Escenas_ThreeJS/01_Juegos/platform-game-3d-scene/scene.js"
+  ],
+  "uses_external_asset_catalog": false
+}

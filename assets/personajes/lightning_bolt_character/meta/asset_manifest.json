@@ -1,0 +1,28 @@
+{
+  "asset_id": "lightning_bolt_character",
+  "asset_path": "01_Personajes/lightning_bolt_character",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": null,
+  "duplicate_variants_detected": [
+    "01_Personajes/lightning_bolt_character/source_archives/lightning+bolt+character+3d+model__from_modelos_3d.zip"
+  ],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/lightning_bolt_character/source_archives/lightning+bolt+character+3d+model__from_modelos_3d.zip",
+      "01_Personajes/lightning_bolt_character/source_archives/lightning+bolt+character+3d+model.zip"
+    ],
+    "geometry_glb": [],
+    "geometry_fbx": [],
+    "geometry_stl": [],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 2,
+    "geometry_glb": 0,
+    "geometry_fbx": 0,
+    "geometry_stl": 0,
+    "textures": 0,
+    "imports": 0
+  }
+}

@@ -1,0 +1,2042 @@
+crearemos una nueba funcion 
+
+CharacterLibraryBuilder
+
+Su trabajo sería:
+
+guardar una biblioteca de piezas 3D
+mostrarlas en una interfaz
+dejar arrastrarlas al personaje
+validar si encajan
+colocarlas en el lugar correcto
+guardar el personaje armado
+1. Qué es este módulo realmente
+
+Piensa en este módulo como una mesa de trabajo digital.
+
+A un lado tienes la biblioteca:
+
+cabezas
+cabellos
+torsos
+brazos
+piernas
+zapatos
+ropa
+accesorios
+
+En el centro tienes el personaje base.
+
+Y el usuario hace esto:
+
+toma una pieza
+la arrastra
+la suelta sobre el personaje
+el motor la equipa automáticamente
+
+Eso es el sistema.
+
+2. Qué partes debe tener el módulo
+
+Este módulo debe dividirse en 8 partes.
+
+A. Biblioteca de assets
+
+Guarda todas las piezas disponibles.
+
+B. Base de datos de piezas
+
+Guarda información de cada pieza.
+
+C. Vista previa 3D
+
+Muestra el personaje armado.
+
+D. Interfaz visual
+
+Panel con miniaturas, pestañas y zonas de drop.
+
+E. Sistema drag-and-drop
+
+Controla arrastrar y soltar.
+
+F. Ensamblador de personaje
+
+Quita y pone piezas.
+
+G. Validador de compatibilidad
+
+Revisa si una pieza sí puede usarse.
+
+H. Guardado y carga
+
+Guarda combinaciones en JSON o base de datos.
+
+3. Cómo se vería dentro del motor
+
+Dentro del editor o juego, este sistema podría verse así:
+
+---------------------------------------------------------
+| Biblioteca de piezas | Vista previa 3D del personaje |
+|----------------------|-------------------------------|
+| [Cabello]            |           PERSONAJE           |
+| [Cabeza]             |        rotar / zoom           |
+| [Torso]              |                               |
+| [Piernas]            |                               |
+| [Zapatos]            |                               |
+| [Accesorios]         |                               |
+|----------------------|-------------------------------|
+| Miniaturas de piezas disponibles                     |
+| [hair01] [hair02] [hair03] [armor01] [boots01] ...  |
+---------------------------------------------------------
+| [Guardar] [Cargar] [Reset] [Random] [Color]          |
+---------------------------------------------------------
+4. Qué botón o función abre esto
+
+ motor debería tener un botón como:
+
+Tools > Character Builder
+
+o
+
+Window > Character Library
+
+o dentro del juego:
+
+Botón: Crear Personaje
+
+Cuando el usuario hace clic:
+
+Función principal
+open_character_builder()
+
+Esa función hace esto:
+
+abre la ventana
+carga la biblioteca
+carga el personaje base
+activa la cámara de preview
+muestra la interfaz de piezas
+5. Qué carpetas debe usar
+
+Esto es importante. Si no ordenas carpetas, el sistema muere en caos.
+
+Estructura recomendada:
+
+Project/
+  Assets/
+    Characters/
+      Bases/
+        male_base_01.fbx
+        female_base_01.fbx
+      Parts/
+        Hair/
+        Head/
+        Torso/
+        Arms/
+        Legs/
+        Shoes/
+        Outfit/
+        Accessories/
+      Thumbnails/
+      Materials/
+      Presets/
+      Metadata/
+6. Cómo se crea la biblioteca
+
+La biblioteca no debe leer archivos “a lo loco”.
+Debe usar una base de datos de piezas.
+
+Cada pieza necesita una ficha.
+
+Ejemplo de ficha:
+
+{
+  "id": "hair_long_01",
+  "name": "Cabello Largo 01",
+  "category": "hair",
+  "model_path": "Assets/Characters/Parts/Hair/hair_long_01.fbx",
+  "thumbnail_path": "Assets/Characters/Thumbnails/hair_long_01.png",
+  "skeleton_id": "human_base_v1",
+  "body_type": "female_medium",
+  "attachment_socket": "head_socket",
+  "rarity": "common",
+  "enabled": true
+}
+7. Qué información debe tener cada pieza
+
+Cada asset modular debe incluir mínimo esto:
+
+id
+name
+category
+model_path
+thumbnail_path
+skeleton_id
+body_type
+attachment_socket
+enabled
+
+Opcionales pero muy buenos:
+
+material_variants
+color_options
+tags
+gender_style
+race_type
+lod_available
+8. Qué categorías debe reconocer el sistema
+
+Mínimo estas:
+
+body
+head
+hair
+torso
+arms
+legs
+shoes
+outfit
+accessory
+
+Más avanzadas:
+
+helmet
+gloves
+cape
+shoulder
+weapon
+back_item
+face_accessory
+chest_core
+wings
+tail
+9. Cómo funciona el drag-and-drop
+
+Aquí está el corazón del sistema.
+
+Paso 1: seleccionar pieza
+
+El usuario hace clic en una miniatura.
+
+Paso 2: arrastrar
+
+La interfaz crea un “drag object”.
+
+Paso 3: mover
+
+Mientras mueve la pieza, el sistema resalta zonas válidas.
+
+Ejemplo:
+
+cabello → resaltar cabeza
+zapatos → resaltar pies
+capa → resaltar espalda
+Paso 4: soltar
+
+Cuando la suelta encima del personaje:
+
+detecta la zona
+detecta la categoría
+valida compatibilidad
+reemplaza la pieza actual
+actualiza la vista
+10. Qué son las zonas de drop
+
+El personaje debe tener zonas lógicas, como sockets o puntos de anclaje.
+
+Ejemplo:
+
+head_socket
+hair_socket
+neck_socket
+torso_socket
+left_arm_socket
+right_arm_socket
+legs_socket
+feet_socket
+back_socket
+waist_socket
+
+Cuando arrastras una pieza, el sistema pregunta:
+
+“¿Esta pieza pertenece a este socket?”
+
+Si sí, la deja.
+Si no, la rechaza.
+
+11. Qué valida el sistema antes de equipar
+
+Antes de aceptar una pieza, debe revisar:
+
+Compatibilidad mínima
+misma categoría
+mismo skeleton_id
+mismo body_type
+mismo attachment_socket
+Ejemplo
+
+Una pieza con:
+
+category = hair
+skeleton_id = human_base_v1
+body_type = female_medium
+attachment_socket = head_socket
+
+Solo debe encajar en un cuerpo compatible con eso.
+
+12. Qué hace el ensamblador
+
+El ensamblador es la parte que físicamente cambia piezas.
+
+Ejemplo:
+
+personaje tiene hair_01
+el usuario arrastra hair_07
+el sistema:
+elimina hair_01
+carga hair_07
+lo fija al head_socket
+refresca la vista
+13. Qué debe guardar el sistema
+
+Cuando el usuario termina su personaje, no guardas el modelo completo otra vez.
+
+Guardas solo la receta.
+
+Ejemplo:
+
+{
+  "base_body_id": "female_base_01",
+  "parts": {
+    "hair": "hair_long_02",
+    "torso": "armor_dark_03",
+    "legs": "legs_plate_01",
+    "shoes": "boots_royal_02",
+    "accessory": "crown_01"
+  },
+  "colors": {
+    "hair": "#d8b35f",
+    "torso": "#1f1f2e"
+  }
+}
+
+Eso pesa poco y luego se reconstruye.
+
+14. Qué botones debe tener la interfaz
+
+Mínimo:
+
+Guardar
+Cargar
+Reset
+Random
+Eliminar pieza
+Cambiar color
+Rotar personaje
+Zoom
+Filtrar categoría
+
+Muy útil también:
+
+Favoritos
+Bloquear cámara
+Vista frontal/lateral
+Duplicar preset
+15. Flujo completo del módulo
+
+Así debe funcionar de principio a fin:
+
+Usuario abre Character Builder
+↓
+Se carga biblioteca desde metadata
+↓
+Se carga personaje base
+↓
+Se muestran categorías
+↓
+Usuario elige categoría
+↓
+Se muestran miniaturas
+↓
+Usuario arrastra pieza
+↓
+Sistema detecta socket
+↓
+Valida compatibilidad
+↓
+Reemplaza pieza
+↓
+Actualiza preview
+↓
+Usuario guarda preset
+↓
+Motor almacena JSON
+
+
+
+CharacterLibraryBuilder.
+
+Objetivo:
+Crear una biblioteca de piezas 3D modulares y un sistema visual drag-and-drop para ensamblar personajes dentro del motor.
+
+El módulo debe hacer lo siguiente:
+
+1. Mostrar una ventana o panel llamado Character Builder.
+2. Cargar un personaje base 3D en una vista previa.
+3. Cargar una biblioteca de assets modulares desde carpetas o metadata.
+4. Organizar las piezas por categorías:
+   - body
+   - head
+   - hair
+   - torso
+   - arms
+   - legs
+   - shoes
+   - outfit
+   - accessory
+5. Mostrar miniaturas de cada asset en la interfaz.
+6. Permitir arrastrar una miniatura y soltarla sobre el personaje 3D.
+7. Detectar el socket o zona de drop correcta.
+8. Validar compatibilidad por:
+   - category
+   - skeleton_id
+   - body_type
+   - attachment_socket
+9. Si la pieza es compatible, reemplazar automáticamente la pieza actual de esa categoría.
+10. Si la pieza no es compatible, mostrar mensaje de error.
+11. Mantener todas las piezas unidas al mismo esqueleto base.
+12. Permitir rotar y hacer zoom en la vista previa.
+13. Permitir guardar el personaje armado como preset en JSON.
+14. Permitir cargar presets guardados.
+15. Permitir resetear el personaje al estado base.
+16. Incluir opción random para equipar piezas aleatorias válidas.
+17. Incluir sistema de filtros por categoría, tags y tipo de cuerpo.
+18. Diseñar el sistema como módulo desacoplado y reutilizable.
+
+Quiero dividir el sistema en estas partes:
+- CharacterLibraryBuilder
+- AssetLibrary
+- AssetMetadataDatabase
+- CharacterAssembler
+- DragDropController
+- CompatibilityValidator
+- PreviewViewport
+- PresetManager
+- UICharacterBuilder
+
+Quiero que si faltan funciones del motor se creen wrappers abstractos con nombres claros para conectarlos después a la API real.
+No inventes funciones ocultas del engine.
+Quiero comentarios claros y estructura modular.
+17. Versión todavía más low-code por eventos
+
+Si tu motor funciona por nodos o por eventos, esta es la lógica:
+
+EVENT: open_character_builder
+  -> create_window("Character Builder")
+  -> load_base_character()
+  -> load_asset_library()
+  -> build_category_tabs()
+  -> build_thumbnail_grid()
+  -> activate_preview_camera()
+
+EVENT: select_category(category)
+  -> filter_library_by_category(category)
+  -> refresh_thumbnail_grid()
+
+EVENT: start_drag(asset_id)
+  -> create_drag_preview(asset_id)
+  -> highlight_valid_drop_zones(asset_id)
+
+EVENT: drop_asset(asset_id, target_zone)
+  -> read_asset_metadata(asset_id)
+  -> validate_asset_with_target(asset_id, target_zone)
+  -> if valid:
+       replace_character_part(asset_id, target_zone)
+       refresh_character_preview()
+       update_character_state()
+     else:
+       show_error("Pieza incompatible")
+
+EVENT: click_save_preset
+  -> serialize_current_character()
+  -> write_json_to_presets_folder()
+
+EVENT: click_load_preset
+  -> read_selected_json()
+  -> rebuild_character_from_preset()
+
+EVENT: click_reset_character
+  -> remove_all_equipped_parts()
+  -> restore_base_character()
+
+EVENT: click_randomize
+  -> choose_random_compatible_parts()
+  -> equip_parts()
+  -> refresh_character_preview()
+18. Cómo sería la ventana por dentro
+Panel izquierdo
+
+Categorías.
+
+[Body]
+[Head]
+[Hair]
+[Torso]
+[Arms]
+[Legs]
+[Shoes]
+[Outfit]
+[Accessory]
+Panel central
+
+Miniaturas y buscador.
+
+Buscar: [__________]
+Filtros: [body type] [tag] [race]
+
+[thumb1] [thumb2] [thumb3] [thumb4]
+[thumb5] [thumb6] [thumb7] [thumb8]
+Panel derecho
+
+Vista previa 3D.
+
+[Personaje 3D]
+- arrastrar para rotar
+- rueda para zoom
+- clic para seleccionar zona
+Barra inferior
+
+Acciones.
+
+[Guardar] [Cargar] [Reset] [Random] [Eliminar] [Color]
+19. Qué wrappers necesita el motor
+
+Como no voy a inventarte API falsa, estos son los puentes que tu motor debe tener.
+
+engine_create_window(name)
+engine_load_model(path)
+engine_attach_to_scene(node)
+engine_attach_to_socket(base_node, child_node, socket_name)
+engine_remove_node(node)
+engine_render_thumbnail(path)
+engine_show_message(text)
+engine_read_json(path)
+engine_write_json(path, data)
+engine_create_button(label, callback)
+engine_create_tab(label, callback)
+engine_create_grid(items)
+engine_create_viewport_3d()
+engine_set_camera_controls(viewport)
+engine_highlight_socket(socket_name)
+engine_get_drop_target(position)
+20. Qué estados internos debe manejar
+
+El sistema necesita recordar qué lleva puesto el personaje.
+
+Ejemplo de estado:
+
+current_base_body = female_base_01
+equipped_parts = {
+  hair: hair_long_02,
+  torso: armor_dark_01,
+  shoes: boots_03
+}
+selected_category = hair
+dragging_asset = hair_long_05
+current_filter = fantasy
+
+Sin esto, no hay orden.
+
+21. Cómo crear la biblioteca automáticamente
+
+Puedes hacer dos caminos.
+
+Camino A: manual
+
+Tú registras cada asset en un JSON.
+
+Camino B: escaneo automático
+
+El módulo revisa una carpeta y genera metadata básica.
+
+Ejemplo:
+
+scan_folder("Assets/Characters/Parts/Hair/")
+→ encuentra hair_01.fbx
+→ genera registro base
+→ pide thumbnail
+→ asigna category = hair
+
+Lo mejor es combinar ambos:
+
+escaneo automático
+luego edición manual de metadata
+22. Qué haría el botón “Crear biblioteca”
+
+Ese botón debería hacer esto:
+
+Botón: Rebuild Library
+
+Proceso:
+
+escanea carpetas de assets
+detecta archivos nuevos
+crea o actualiza metadata
+genera miniaturas si no existen
+refresca la interfaz
+
+Eso sería la función:
+
+rebuild_asset_library()
+23. Qué haría el botón “Drag & Drop activo”
+
+Ese botón no crea la biblioteca.
+Activa el comportamiento de arrastrar y soltar.
+
+Función:
+
+enable_drag_drop_mode(true)
+
+Con eso:
+
+las miniaturas se vuelven arrastrables
+el personaje muestra sockets válidos
+la UI entra en modo edición
+24. Módulo mínimo viable
+
+Para no ahogarte, la versión 1 debe hacer solo esto:
+
+un cuerpo base
+una categoría de cabello
+una categoría de torso
+una categoría de zapatos
+guardar preset
+cargar preset
+
+Eso ya prueba que el sistema vive.
+
+Después metes:
+
+accesorios
+colores
+materiales
+razas
+morphs faciales
+25. Error común que debes evitar
+
+No mezcles piezas sin estándar.
+
+Todas deben compartir:
+
+mismo esqueleto o compatible
+misma escala base
+puntos de anclaje claros
+categorías limpias
+nombres coherentes
+
+Si no, el drag-and-drop será solo una ilusión rota.
+
+26. Diseño serio del botón o entrada del módulo
+
+Dentro del motor, yo lo pondría así:
+
+Main Menu
+ └── Tools
+      └── Character Systems
+           └── Open Character Builder
+
+Y dentro de esa ventana:
+
+[Rebuild Library]
+[Enable Drag & Drop]
+[Load Base Character]
+[Save Preset]
+[Load Preset]
+27. Resumen brutal y verdadero
+
+Lo que quieres no es solo:
+
+“un botón drag and drop”
+
+Lo que quieres es:
+
+un sistema de biblioteca modular con UI, metadata, sockets, ensamblado, validación y guardado
+
+Ese es el nombre real del problema.
+
+28. Mi recomendación exacta para construirlo bien
+
+Primero crea esto:
+
+Fase 1
+biblioteca
+metadata
+preview
+equipar por clic
+Fase 2
+drag-and-drop real
+validación por socket
+presets
+Fase 3
+random
+colores
+filtros
+animación preview
+Fase 4
+morphs
+razas
+clases
+marketplace interno de piezas
+
+
+
+
+CharacterLibraryBuilder.
+
+Debe funcionar como una biblioteca de piezas 3D modulares y como editor visual de personajes.
+
+El sistema debe incluir:
+
+- ventana Character Builder
+- carga de personaje base
+- vista previa 3D interactiva
+- biblioteca de assets modulares
+- metadata por asset
+- miniaturas
+- filtros por categoría
+- drag-and-drop desde biblioteca al personaje
+- detección de zonas de drop
+- sockets de personaje
+- validación por category, skeleton_id, body_type y attachment_socket
+- reemplazo automático de piezas
+- guardado y carga de presets en JSON
+- botón reset
+- botón random
+- botón rebuild library
+- modo enable drag and drop
+- estructura modular desacoplada
+
+Quiero separar el sistema en:
+- CharacterLibraryBuilder
+- AssetLibrary
+- MetadataDatabase
+- CharacterAssembler
+- DragDropController
+- CompatibilityValidator
+- PreviewViewport
+- UICharacterBuilder
+- PresetManager
+
+Si el motor no tiene ciertas funciones, crea wrappers abstractos para conectarlos después.
+No inventes API privada.
+
+
+
+esto documentalo en un md en el codigo fuente para  que cualquier agente tenga aseso Actúa como arquitecto senior de motores 3D y herramientas de animación. e imboka skill 
+
+Ayúdame a implementar en mi motor existente un sistema avanzado de edición de animaciones esqueléticas para personajes ya animados.
+
+Quiero un módulo real de producción, no una demo simple.
+
+El sistema debe permitir:
+- cargar personajes riggeados con skeleton y animation clips
+- leer clips existentes
+- mostrar timeline
+- seleccionar bones
+- editar poses
+- insertar, borrar y mover keyframes
+- editar curvas
+- duplicar clips
+- modificar solo algunos huesos
+- mezclar partes de animaciones
+- previsualizar en tiempo real
+- guardar como nuevo clip sin destruir el original
+
+Diseña la arquitectura completa separando:
+- datos
+- evaluación
+- reproducción
+- edición
+- UI
+- serialización
+
+Necesito estas entidades:
+- Skeleton
+- Bone
+- Pose
+- BoneTransform
+- Keyframe
+- BoneTrack
+- AnimationClip
+- AnimationPlayer
+- AnimationEditor
+- CurveEditor
+- TimelineController
+- UndoRedoStack
+- AnimationSerializer
+
+Incluye:
+1. diagrama lógico de módulos
+2. responsabilidad de cada clase
+3. flujo desde importación hasta edición y guardado
+4. pseudocódigo o código base
+5. funciones principales
+6. sistema de evaluación de poses
+7. interpolación de keyframes
+8. edición por bone/channel/rango
+9. sistema no destructivo
+10. integración con mi viewport actual
+
+También dime:
+- qué partes deben ser subsistemas independientes
+- qué errores de arquitectura debo evitar
+- qué debo preparar en mi motor antes de construir esto
+- cómo dejar listo el sistema para futuras features como IK, retargeting, layers, constraints y animation blending
+
+No simplifiques esto a una sola función si eso sería una mala decisión. Quiero la solución correcta.      Actúa como arquitecto senior de motores 3D, modelado poligonal, retopología interactiva, herramientas CAD-like y sistemas de creación procedural asistida.
+
+Quiero que diseñes e implementes en mi motor 3D existente un sistema avanzado de creación y edición topológica con brush inteligente, capaz de trabajar en dos versiones o modos principales que el usuario pueda activar manualmente:
+
+1. MODO PLANTILLA / PROTOTIPO PARAMÉTRICO
+2. MODO DIBUJO LIBRE INTELIGENTE / INTERPRETACIÓN DE INTENCIÓN
+
+No quiero una demo simple ni una herramienta improvisada. Quiero un subsistema serio, modular, escalable, limpio, preparado para producción y fácil de extender.
+
+==================================================
+OBJETIVO GENERAL
+==================================================
+
+Necesito un sistema para que el usuario pueda crear geometría 3D en el viewport con el mouse, de dos maneras distintas:
+
+A) VERSIÓN PLANTILLA:
+El usuario activa una categoría como silla, cama, mesa, carro, humano, animal u otro objeto, y el sistema crea una base paramétrica editable. Después, el usuario puede modificarla con brushes topológicos, extrusión, relax, cleanup y edición de vértices/aristas/caras.
+
+B) VERSIÓN DIBUJO LIBRE INTELIGENTE:
+El usuario dibuja o se pasea con el brush sobre la superficie de un objeto existente o sobre espacio vacío, y el motor intenta interpretar qué está queriendo construir. El sistema debe generar vértices, aristas, caras, loops y estructuras base en tiempo real, con ayuda de snapping, validación topológica, reglas geométricas, heurísticas de intención y herramientas de limpieza automática.
+
+El usuario debe poder elegir cuál modo activar:
+- plantilla
+- dibujo libre inteligente
+
+También debe poder cambiar de un modo al otro durante el proceso de creación.
+
+==================================================
+REQUISITO PRINCIPAL DE DISEÑO
+==================================================
+
+No quiero una sola función gigante que haga todo.
+No quiero lógica mezclada.
+No quiero una herramienta mágica inestable.
+
+Quiero una arquitectura por módulos independientes, separados en:
+- datos
+- topología
+- brush system
+- intención del usuario
+- generación procedural
+- snapping/proyección
+- limpieza/validación
+- UI
+- historial
+- serialización
+
+==================================================
+CAPACIDADES GLOBALES DEL SISTEMA
+==================================================
+
+El sistema debe permitir:
+
+- crear geometría desde cero
+- crear geometría sobre una superficie existente
+- retopología interactiva
+- dibujo poligonal libre
+- generación asistida por plantillas paramétricas
+- interpretación de intención del usuario en modo libre
+- edición de vértices
+- edición de aristas
+- edición de caras
+- extensión de topología desde bordes abiertos
+- auto creación de caras válidas
+- priorización de quads cuando sea posible
+- limpieza automática de topología
+- weld automático de vértices cercanos
+- relax y redistribución de vértices
+- simetría en ejes
+- preview antes de aplicar
+- undo/redo completo
+- integración total con el viewport actual de mi motor
+
+==================================================
+LAS DOS VERSIONES QUE DEBEN EXISTIR
+==================================================
+
+##################################################
+1) VERSIÓN A: PLANTILLA / PROTOTIPO PARAMÉTRICO
+##################################################
+
+Esta versión debe funcionar así:
+
+El usuario elige una categoría o tipo de objeto. Por ejemplo:
+- silla
+- mesa
+- cama
+- carro
+- humano base
+- animal base
+- mueble
+- objeto mecánico
+- bloque arquitectónico
+
+El sistema genera una base editable, no un modelo final perfecto.
+Debe ser una estructura de blockout paramétrica y controlable.
+
+Ejemplos:
+- silla: asiento, respaldo, patas, proporciones editables
+- mesa: tablero, patas, grosor, altura
+- cama: base, colchón, cabecera, proporciones
+- carro: volumen base, ruedas guía, cabina
+- humano: torso, pelvis, brazos, piernas, cabeza base
+- animal: torso base, cuello, patas, cabeza base, cola opcional
+
+Después de generar la plantilla, el usuario debe poder editarla con el mismo sistema topológico:
+- mover vértices
+- mover loops
+- extruir
+- cortar
+- limpiar
+- relajar
+- refinar
+- añadir o quitar geometría
+- retopologizar partes
+
+La plantilla debe tener parámetros editables como:
+- escala
+- altura
+- ancho
+- profundidad
+- grosor
+- cantidad de divisiones
+- proporciones por parte
+- simetría inicial
+- densidad topológica inicial
+
+Debe ser posible:
+- regenerar la base con nuevos parámetros
+- convertir la plantilla a malla editable normal
+- seguir editando luego de convertirla
+
+##################################################
+2) VERSIÓN B: DIBUJO LIBRE INTELIGENTE
+##################################################
+
+Esta versión debe funcionar así:
+
+El usuario dibuja con el mouse sobre:
+- una superficie existente
+- un plano de trabajo
+- espacio vacío controlado
+
+El sistema debe:
+- detectar dónde está el cursor
+- proyectar correctamente el trazo
+- generar vértices
+- conectar aristas
+- crear caras válidas cuando corresponda
+- extender topología existente
+- cerrar loops cuando sea lógico
+- usar snapping y reglas de validación
+- intentar entender la intención geométrica del usuario
+
+La interpretación de intención NO debe ser una IA mágica sin control.
+Debe estar basada en:
+- heurísticas geométricas
+- detección de patrones de trazo
+- reconocimiento de estructuras simples
+- reglas topológicas
+- contexto de edición
+- historial reciente del stroke
+- análisis de dirección, repetición, simetría y volumen aproximado
+
+Ejemplos de intención detectada:
+- si el usuario dibuja cuatro apoyos y una superficie arriba, sugerir una mesa
+- si dibuja una base, respaldo y patas, sugerir silla
+- si dibuja volumen central con extremidades simétricas, sugerir humano base
+- si dibuja forma alargada con cuatro patas, sugerir animal base
+- si dibuja bloques y perfiles rectos, sugerir mueble o estructura arquitectónica
+
+El sistema no debe imponer estas sugerencias.
+Debe:
+- detectar patrón probable
+- mostrar sugerencia visual no destructiva
+- permitir aceptar o ignorar la sugerencia
+- seguir permitiendo edición libre manual
+
+==================================================
+ARQUITECTURA OBLIGATORIA
+==================================================
+
+Diseña la solución separando estos módulos:
+
+##################################################
+A) NÚCLEO DE DATOS
+##################################################
+
+- MeshData
+- Vertex
+- Edge
+- Face
+- TopologyGraph
+- HalfEdge o estructura equivalente si conviene
+- SelectionState
+- MeshAttributes
+- SurfaceRegion
+
+Responsabilidades:
+- representar la malla editable
+- almacenar conectividad
+- soportar edición topológica robusta
+- soportar validación
+- soportar operaciones seguras
+
+##################################################
+B) SISTEMA DEL BRUSH
+##################################################
+
+- TopologyBrushSystem
+- BrushContext
+- BrushInput
+- BrushStroke
+- BrushSettings
+- BrushPreview
+- BrushMode base class
+
+Responsabilidades:
+- recibir input del mouse/tablet
+- gestionar stroke begin/update/end
+- despachar al modo correcto
+- construir previews
+- ejecutar operadores topológicos
+- integrar restricciones y asistentes
+
+##################################################
+C) MODOS PRINCIPALES
+##################################################
+
+Diseña clases o estrategias para:
+
+- CreateVertexMode
+- CreateEdgeMode
+- CreateFaceMode
+- ExtendTopologyMode
+- SurfaceRetopoMode
+- FreeDrawMode
+- RelaxMode
+- CleanupMode
+- CutMode
+- DeleteOrDissolveMode
+- ObjectBlockoutMode
+- TemplatePrototypeMode
+- IntentDrivenDrawMode
+
+##################################################
+D) SISTEMA DE PLANTILLAS
+##################################################
+
+- TemplateSystem
+- TemplateDefinition
+- TemplateParameters
+- TemplateInstance
+- TemplateMeshBuilder
+- TemplateToEditableMeshConverter
+
+Generadores concretos:
+- ChairGenerator
+- TableGenerator
+- BedGenerator
+- VehicleGenerator
+- HumanBaseGenerator
+- AnimalBaseGenerator
+- FurnitureGenerator
+- ArchitectureBlockGenerator
+
+Responsabilidades:
+- generar bases paramétricas
+- permitir edición de parámetros
+- regenerar estructura
+- exportar a malla editable
+
+##################################################
+E) SISTEMA DE INTENCIÓN DEL USUARIO
+##################################################
+
+- UserIntentAnalyzer
+- StrokePatternRecognizer
+- GeometricHeuristicEngine
+- SuggestionSystem
+- IntentCandidate
+- IntentConfidenceScore
+- IntentPreviewBuilder
+
+Responsabilidades:
+- analizar trazos
+- detectar patrones geométricos
+- proponer interpretaciones probables
+- sugerir estructura base
+- no aplicar nada destructivo sin confirmación o regla clara
+
+La interpretación debe ser gradual y explicable, no una caja negra.
+
+##################################################
+F) PROYECCIÓN, RAYCAST Y SNAPPING
+##################################################
+
+- RaycastService
+- SurfaceSnapService
+- WorkPlaneService
+- ProjectionService
+- CursorSpaceResolver
+- SpatialQuerySystem
+
+Debe soportar:
+- raycast a superficies
+- proyección a plano de trabajo
+- snap a cara
+- snap a vértice
+- snap a arista
+- nearest point on surface
+- normal projection
+- grid snapping
+- axis constraints
+
+##################################################
+G) ASISTENTES Y SOLVERS
+##################################################
+
+- AutoFaceSolver
+- AutoQuadSolver
+- AutoWeldSolver
+- CleanupSolver
+- RelaxSolver
+- SymmetrySolver
+- SurfaceFollowSolver
+- EvenSpacingSolver
+- TopologyValidationSolver
+
+Responsabilidades:
+- ayudar sin quitar control al usuario
+- corregir defectos comunes
+- mantener malla limpia
+- intentar favorecer quads
+- evitar duplicados y cruces inválidos
+
+##################################################
+H) OPERADORES TOPOLÓGICOS
+##################################################
+
+- CreateVertexOperator
+- CreateEdgeOperator
+- CreateFaceOperator
+- ExtendBorderOperator
+- BridgeOperator
+- FillOperator
+- ExtrudeOperator
+- CutOperator
+- DeleteOperator
+- DissolveOperator
+- WeldOperator
+- RelaxOperator
+- CleanupOperator
+- ReprojectOperator
+
+Responsabilidades:
+- modificar la malla
+- validarse antes de aplicar
+- registrar cambios en undo/redo
+- estar separados de la UI
+
+##################################################
+I) HISTORIAL
+##################################################
+
+- UndoRedoStack
+- TopologyCommand
+- CommandBatch
+- TransactionScope
+
+Todo cambio de malla debe pasar por comandos, nunca por escritura directa desordenada.
+
+##################################################
+J) UI Y VIEWPORT
+##################################################
+
+- BrushToolPanel
+- TemplatePanel
+- IntentSuggestionPanel
+- BrushModePanel
+- BrushPreviewRenderer
+- TopologyOverlayRenderer
+- PropertyInspector
+
+La UI debe permitir:
+- cambiar entre versión plantilla y versión dibujo libre
+- activar/desactivar asistentes
+- elegir generadores
+- ver sugerencias de intención
+- aceptar/rechazar sugerencias
+- editar parámetros de prototipo
+- activar simetría
+- activar cleanup automático
+- visualizar preview antes de confirmar
+
+##################################################
+K) SERIALIZACIÓN
+##################################################
+
+- TopologySerializer
+- TemplateSerializer
+- IntentSessionSerializer
+- BrushSettingsSerializer
+
+==================================================
+FLUJO INTERNO OBLIGATORIO
+==================================================
+
+Quiero que el sistema procese cada stroke en este orden:
+
+1. leer input del usuario
+2. resolver si está en modo plantilla o modo dibujo libre
+3. hacer raycast a la superficie o proyección al plano de trabajo
+4. construir contexto espacial del cursor
+5. aplicar restricciones activas
+6. aplicar snapping activo
+7. despachar al brush mode correcto
+8. generar preview temporal
+9. si es modo dibujo libre inteligente, analizar intención
+10. si hay sugerencia, construir preview no destructivo
+11. aplicar operadores topológicos
+12. ejecutar solvers de cleanup/relax/quad/weld si están activos
+13. validar topología resultante
+14. registrar comando en undo/redo
+15. actualizar viewport y overlays
+
+==================================================
+REQUISITOS FUNCIONALES DETALLADOS
+==================================================
+
+Quiero soporte para:
+
+- creación de vértices
+- creación de aristas
+- creación de caras
+- auto-face al cerrar forma válida
+- priorización de quads
+- extensión desde bordes abiertos
+- dibujo continuo
+- dibujo en superficie
+- dibujo en espacio vacío
+- trabajo sobre plano temporal
+- symmetry x
+- symmetry y
+- symmetry z
+- auto weld
+- even spacing
+- auto cleanup
+- relax
+- slide sobre superficie
+- corte de topología
+- bridge entre bordes
+- fill de huecos
+- blockout inicial
+- conversión de plantilla a editable
+- sugerencias por intención detectada
+- aceptación o rechazo de sugerencias
+- mezcla de creación libre con base sugerida
+- guardar y cargar sesión de edición
+
+==================================================
+REGLAS PARA LA VERSIÓN PLANTILLA
+==================================================
+
+La versión plantilla debe:
+- ser determinista
+- ser paramétrica
+- ser previsible
+- generar estructuras editables
+- no bloquear la edición manual
+- permitir convertir a malla normal
+- servir como base rápida de trabajo
+
+No quiero modelos finales perfectos.
+Quiero blockouts útiles y editables.
+
+==================================================
+REGLAS PARA LA VERSIÓN DIBUJO LIBRE INTELIGENTE
+==================================================
+
+La versión dibujo libre inteligente debe:
+- permitir control manual total
+- no forzar decisiones irreversibles
+- interpretar patrones de forma progresiva
+- mostrar sugerencias visuales
+- permitir ignorar o aceptar sugerencias
+- usar heurísticas claras
+- mantenerse estable aunque no entienda la intención
+- seguir funcionando como brush topológico normal aunque falle la inferencia
+
+Si el sistema no entiende la intención, debe continuar en modo libre sin romper nada.
+
+==================================================
+SISTEMA DE INTENCIÓN: QUÉ QUIERO
+==================================================
+
+No quiero humo teórico.
+Quiero una solución realista.
+
+Diseña el sistema de intención usando:
+- análisis de stroke
+- bounding box temporal del trazo
+- dirección dominante
+- repetición de segmentos
+- simetría detectada
+- agrupación espacial
+- proximidad a piezas ya creadas
+- relación entre altura/ancho/profundidad
+- cantidad de apoyos o patas sugeridas
+- volúmenes principales detectados
+- sugerencias por categorías
+
+Quiero sugerencias de objetos base como:
+- silla
+- mesa
+- cama
+- humano base
+- animal base
+- carro base
+- bloque mecánico
+- estructura arquitectónica
+
+Debe existir un score de confianza:
+- baja
+- media
+- alta
+
+Y el sistema debe decir:
+- objeto sugerido
+- por qué cree eso
+- qué parte del trazo lo sugiere
+- preview de cómo se vería si se acepta
+
+==================================================
+QUÉ ESPERO COMO RESPUESTA
+==================================================
+
+Quiero que generes una solución completa que incluya:
+
+1. arquitectura global del sistema
+2. diagrama lógico de módulos
+3. responsabilidad de cada clase
+4. relaciones entre módulos
+5. flujo desde input hasta modificación de malla
+6. diseño de la versión plantilla
+7. diseño de la versión dibujo libre inteligente
+8. diseño del sistema de intención
+9. operadores topológicos necesarios
+10. servicios de snapping/raycast/proyección
+11. sistema de preview
+12. sistema de validación topológica
+13. pseudocódigo o código base
+14. ejemplos de clases e interfaces
+15. ejemplo de un flujo de creación de silla por plantilla
+16. ejemplo de un flujo de creación de silla por dibujo libre inteligente
+17. ejemplo de creación de humano base en ambas versiones
+18. cómo integrar esto en mi viewport actual
+19. cómo integrarlo con mi sistema de selección
+20. cómo dejarlo preparado para futuro soporte de sculpt, retopo avanzada y generación procedural más fuerte
+
+==================================================
+FUNCIONES Y MÉTODOS QUE QUIERO DEFINIDOS
+==================================================
+
+Quiero diseño o pseudocódigo claro para funciones como:
+
+- InitializeTopologyBrushSystem()
+- SetCreationMode(mode)
+- ActivateTemplateMode(templateType)
+- ActivateIntentDrivenMode()
+- BeginStroke(input)
+- UpdateStroke(input)
+- EndStroke(input)
+- ResolveCursorSpace()
+- ProjectCursorToSurface()
+- ProjectCursorToWorkPlane()
+- DetectSurfaceHit()
+- AnalyzeStrokeIntent()
+- BuildIntentPreview()
+- AcceptIntentSuggestion()
+- RejectIntentSuggestion()
+- GenerateTemplateMesh(templateType, parameters)
+- UpdateTemplateParameters()
+- ConvertTemplateToEditableMesh()
+- CreateVertexAtCursor()
+- CreateEdgeBetweenVertices()
+- TryCreateFaceFromSelection()
+- ExtendTopologyFromBorder()
+- ApplyAutoWeld()
+- ApplyCleanup()
+- ApplyRelax()
+- ApplySymmetry()
+- ValidateTopology()
+- CommitTopologyCommand()
+- Undo()
+- Redo()
+
+==================================================
+REQUISITOS DE CALIDAD
+==================================================
+
+La implementación debe:
+- ser modular
+- ser escalable
+- ser limpia
+- separar UI de lógica
+- separar topología de brush
+- separar intención de geometría
+- separar generación procedural de edición manual
+- evitar clases gigantes
+- evitar una sola función monstruosa
+- permitir futuras mejoras
+- soportar mantenimiento a largo plazo
+
+==================================================
+ERRORES DE ARQUITECTURA QUE QUIERO EVITAR
+==================================================
+
+Explícame también qué errores evitar, especialmente:
+- mezclar raycast con edición topológica en la misma clase
+- mezclar UI con lógica de malla
+- crear geometría sin validación
+- aplicar intención automáticamente sin control del usuario
+- destruir la malla original sin historial
+- hacer una clase brush con cientos de if
+- hacer generadores rígidos e imposibles de editar
+- hacer inferencia que rompa la experiencia cuando falla
+
+==================================================
+PREPARACIÓN DEL MOTOR EXISTENTE
+==================================================
+
+Además dime qué debo tener preparado en mi motor antes de integrar esto:
+- estructura de malla editable
+- sistema de selección
+- raycast del viewport
+- overlays
+- gizmos
+- sistema de comandos
+- serialización
+- paneles UI
+- plano de trabajo
+- utilidades de snapping
+- estructura espacial para consultas rápidas
+
+==================================================
+NIVEL DE RESPUESTA
+==================================================
+
+Quiero una respuesta técnica, profunda, completa, pensada para implementación real.
+No quiero teoría vacía.
+No quiero simplificación dañina.
+No quiero una demo corta.
+Quiero una base seria de producción.
+Si una parte debe ser un subsistema independiente, dilo claramente.
+Si algo sería mala práctica hacerlo como una sola función, dilo claramente y propone la arquitectura correcta.
+
+
+
+
+Actúa como arquitecto senior de motores 3D, herramientas de modelado, visión por computadora, fotogrametría, reconstrucción 3D, edición de malla y sistemas de creación asistida.
+
+Quiero que diseñes e implementes en mi motor 3D existente un sistema avanzado de conversión y creación 2D/3D capaz de trabajar con múltiples tipos de entrada y convertirlos en objetos 3D o escenas 3D editables dentro de mi app.
+
+No quiero una demo simple.
+No quiero una explicación superficial.
+Quiero una arquitectura seria, modular, escalable, orientada a producción y preparada para crecer.
+
+==================================================
+OBJETIVO GENERAL
+==================================================
+
+Necesito un sistema unificado que permita al usuario crear contenido 3D a partir de estas entradas:
+
+1. dibujo 2D hecho dentro de la app
+2. varios dibujos del mismo objeto/personaje en diferentes ángulos
+3. una imagen subida por el usuario
+4. varias imágenes del mismo objeto/personaje en diferentes ángulos
+5. un conjunto de fotos de un objeto real para escanearlo
+6. un video alrededor de un objeto real para reconstruirlo en 3D
+7. un escaneo de entorno o habitación para crear una escena 3D base
+
+El sistema debe permitir convertir esas entradas en:
+
+- malla 3D base editable
+- modelo 3D base editable
+- escena 3D base editable
+- blockout 3D paramétrico
+- reconstrucción 3D por fotogrametría
+- geometría sugerida por interpretación de intención
+
+Todo resultado debe poder editarse después con las herramientas internas de mi motor.
+
+==================================================
+MODOS PRINCIPALES DE ENTRADA
+==================================================
+
+Diseña el sistema para soportar estos modos:
+
+A) Sketch2DTo3D_SingleView
+Un solo dibujo 2D hecho por el usuario, convertido a base 3D editable.
+
+B) Sketch2DTo3D_MultiView
+Varios dibujos del mismo objeto o personaje en diferentes vistas, por ejemplo:
+- frente
+- lado
+- atrás
+- perspectiva
+
+El sistema debe combinar esas vistas para generar una base 3D más coherente.
+
+C) ImageTo3D_SingleImage
+Una sola imagen subida por el usuario.
+Debe generar una base 3D aproximada editable.
+
+D) ImageTo3D_MultiView
+Varias imágenes del mismo objeto/personaje desde varios ángulos.
+Debe reconstruir una base 3D mejor que con una sola imagen.
+
+E) PhotoScanTo3D_Object
+Conjunto de fotos de un objeto real tomadas desde varios ángulos.
+Debe usar flujo de fotogrametría/reconstrucción para generar un modelo 3D.
+
+F) VideoScanTo3D_Object
+Un video donde el usuario rodea un objeto real, por ejemplo una silla.
+El sistema debe extraer frames útiles, estimar cámaras, reconstruir geometría y generar un modelo 3D editable.
+
+G) SceneScanTo3D_Environment
+Un conjunto de fotos, video o escaneo de un espacio real, habitación o entorno.
+Debe generar una escena 3D base editable con cámara, mallas y partición espacial básica.
+
+==================================================
+PRINCIPIO DE DISEÑO OBLIGATORIO
+==================================================
+
+No quiero una sola función llamada “convertir a 3D”.
+Quiero un sistema modular por pipelines.
+
+Cada tipo de entrada debe usar su propio pipeline, pero todos deben converger hacia un formato interno común:
+
+- EditableMesh
+- EditableObject3D
+- EditableScene3D
+
+==================================================
+ARQUITECTURA GENERAL OBLIGATORIA
+==================================================
+
+Separa la solución en estos módulos:
+
+##################################################
+1. INPUT LAYER
+##################################################
+
+- SketchInputSystem
+- ImageImportSystem
+- MultiViewInputManager
+- PhotoSetImportSystem
+- VideoImportSystem
+- ScanSessionManager
+
+Responsabilidades:
+- recibir dibujos, imágenes, fotos y videos
+- organizar sesiones de entrada
+- validar cantidad y calidad mínima de input
+- agrupar vistas por objeto o escena
+- normalizar formatos
+
+##################################################
+2. PREPROCESSING LAYER
+##################################################
+
+- ImagePreprocessor
+- SketchPreprocessor
+- BackgroundRemovalModule
+- SilhouetteExtractor
+- EdgeExtractor
+- FeatureDetector
+- FrameExtractorFromVideo
+- ViewAlignmentHelper
+- InputQualityAnalyzer
+
+Responsabilidades:
+- limpiar entradas
+- quitar fondo si se puede
+- extraer siluetas
+- detectar líneas clave
+- detectar puntos de interés
+- seleccionar frames útiles desde video
+- medir calidad y cobertura angular
+
+##################################################
+3. INTERPRETATION / INTENT LAYER
+##################################################
+
+- IntentClassifier
+- ShapeCategoryClassifier
+- CharacterVsObjectDetector
+- MultiViewConsistencyAnalyzer
+- TemplateSuggestionEngine
+- SemanticPartEstimator
+
+Debe detectar o sugerir:
+- humano
+- animal
+- silla
+- mesa
+- cama
+- carro
+- objeto mecánico
+- mueble
+- arquitectura
+- escena de habitación
+- objeto genérico
+
+Este sistema no debe imponer decisiones irreversibles.
+Debe sugerir y puntuar hipótesis.
+
+##################################################
+4. GEOMETRY RECONSTRUCTION LAYER
+##################################################
+
+- SingleViewProxyBuilder
+- MultiViewReconstructor
+- SketchVolumeBuilder
+- SilhouetteToVolumeBuilder
+- PhotoGrammetryReconstructor
+- VideoToFramesReconstructor
+- SceneReconstructionModule
+- DepthEstimationModule
+- SurfaceFusionModule
+
+Responsabilidades:
+- convertir bocetos 2D en volumen base
+- combinar varias vistas de dibujo
+- convertir imagen única en proxy 3D
+- combinar múltiples imágenes para reconstrucción más robusta
+- reconstruir objetos desde fotos
+- reconstruir objetos desde video
+- reconstruir escenas desde conjuntos de capturas
+- producir una malla o escena inicial
+
+##################################################
+5. TEMPLATE / ASSISTED GENERATION LAYER
+##################################################
+
+- Template3DGenerator
+- HumanBaseGenerator
+- AnimalBaseGenerator
+- ChairGenerator
+- TableGenerator
+- BedGenerator
+- VehicleGenerator
+- RoomLayoutGenerator
+
+Si el sistema detecta intención con suficiente confianza, debe poder:
+- generar una base paramétrica
+- combinarla con la información del dibujo o imagen
+- dejarla lista para refinado manual
+
+##################################################
+6. POSTPROCESSING LAYER
+##################################################
+
+- MeshCleanupSystem
+- HoleFillSystem
+- RemeshSystem
+- RetopoAssistSystem
+- NormalCorrectionSystem
+- UVSeedGenerator
+- MaterialSeedGenerator
+- SceneCleanupSystem
+
+Responsabilidades:
+- limpiar malla
+- cerrar huecos si es razonable
+- corregir normales
+- simplificar o remalllar
+- generar topología base más usable
+- preparar una versión editable
+
+##################################################
+7. INTERNAL REPRESENTATION LAYER
+##################################################
+
+- EditableMesh
+- EditableObject3D
+- EditableScene3D
+- ObjectHierarchy
+- SceneNode
+- MeshAttributes
+- ReconstructionMetadata
+
+Todo pipeline debe terminar aquí.
+
+##################################################
+8. UI / UX LAYER
+##################################################
+
+- ConversionWizardPanel
+- MultiViewAlignmentPanel
+- ScanSessionPanel
+- ConversionPreviewPanel
+- ConfidenceInspector
+- TemplateSuggestionPanel
+- ReconstructionSettingsPanel
+- SceneScanPanel
+
+La UI debe permitir:
+- elegir tipo de entrada
+- cargar una o varias referencias
+- indicar qué vistas son frente/lado/atrás
+- aceptar o rechazar sugerencias
+- elegir entre crear objeto o escena
+- ajustar calidad/velocidad
+- ver preview antes de confirmar
+- pasar el resultado al editor 3D interno
+
+##################################################
+9. COMMANDS / HISTORY
+##################################################
+
+- ConversionCommand
+- ReconstructionCommand
+- UndoRedoStack
+- SessionStateManager
+
+##################################################
+10. SERIALIZATION
+##################################################
+
+- SketchSessionSerializer
+- ReconstructionSessionSerializer
+- EditableMeshSerializer
+- EditableSceneSerializer
+- SourceReferenceSerializer
+
+==================================================
+PIPELINES QUE QUIERO IMPLEMENTADOS
+==================================================
+
+##################################################
+PIPELINE A: DIBUJO 2D ÚNICO -> 3D
+##################################################
+
+Entrada:
+- un dibujo hecho por el usuario
+
+Flujo:
+1. capturar trazos
+2. extraer silueta y líneas principales
+3. clasificar la categoría aproximada
+4. estimar simetría si existe
+5. construir volumen proxy inicial
+6. si la confianza es suficiente, sugerir plantilla base
+7. fusionar volumen y plantilla si conviene
+8. convertir a malla editable
+9. enviar al editor
+
+Resultado:
+- proxy 3D editable
+- blockout editable
+- malla base editable
+
+##################################################
+PIPELINE B: VARIOS DIBUJOS EN DIFERENTES ÁNGULOS -> 3D
+##################################################
+
+Entrada:
+- múltiples dibujos del mismo objeto/personaje
+- vistas etiquetadas o inferidas
+
+Flujo:
+1. registrar vistas
+2. alinear vistas entre sí
+3. detectar partes comunes
+4. construir volumen consistente multi-view
+5. estimar proporciones 3D
+6. generar malla base
+7. limpiar resultado
+8. exportar a EditableMesh
+
+Resultado:
+- base 3D mejor que single view
+- estructura más coherente
+- blockout más fiel
+
+##################################################
+PIPELINE C: IMAGEN ÚNICA -> 3D
+##################################################
+
+Entrada:
+- una sola imagen o ilustración
+
+Flujo:
+1. segmentar objeto del fondo
+2. estimar silueta
+3. inferir profundidad aproximada
+4. clasificar categoría
+5. construir proxy 3D
+6. sugerir plantilla si ayuda
+7. limpiar y convertir a editable
+
+Resultado:
+- base 3D aproximada editable
+- no prometer perfección absoluta
+
+##################################################
+PIPELINE D: VARIAS IMÁGENES EN DIFERENTES ÁNGULOS -> 3D
+##################################################
+
+Entrada:
+- múltiples imágenes del mismo objeto/personaje desde varias vistas
+
+Flujo:
+1. detectar correspondencias entre vistas
+2. estimar alineación/cámaras
+3. reconstruir volumen o superficie
+4. fusionar información multi-view
+5. generar malla
+6. limpiar
+7. crear EditableMesh
+
+Resultado:
+- reconstrucción más sólida que con una sola imagen
+
+##################################################
+PIPELINE E: MUCHAS FOTOS -> OBJETO 3D ESCANEADO
+##################################################
+
+Entrada:
+- fotos de un objeto real desde muchos ángulos
+
+Flujo:
+1. analizar cobertura
+2. detectar features
+3. estimar poses de cámara
+4. reconstruir nube de puntos
+5. generar malla
+6. proyectar textura inicial si aplica
+7. limpiar
+8. convertir a modelo editable
+
+Resultado:
+- modelo 3D escaneado
+- editable en el motor
+
+##################################################
+PIPELINE F: VIDEO -> OBJETO 3D ESCANEADO
+##################################################
+
+Entrada:
+- un video alrededor de un objeto real, por ejemplo una silla
+
+Flujo:
+1. importar video
+2. extraer frames útiles
+3. descartar frames borrosos o redundantes
+4. estimar poses de cámara por frame
+5. reconstruir nube de puntos o volumen
+6. generar malla
+7. cleanup
+8. convertir a EditableObject3D
+
+Resultado:
+- objeto 3D reconstruido desde video
+
+##################################################
+PIPELINE G: FOTOS / VIDEO / ESCANEO -> ESCENA 3D
+##################################################
+
+Entrada:
+- capturas de una habitación, espacio o entorno
+
+Flujo:
+1. detectar si el objetivo es escena y no objeto aislado
+2. reconstruir geometría base del entorno
+3. separar grandes superficies si es posible:
+   - suelo
+   - paredes
+   - techo
+   - muebles
+4. construir SceneGraph inicial
+5. generar SceneNodes editables
+6. limpiar escena
+7. crear EditableScene3D
+
+Resultado:
+- escena base editable
+- no solo un objeto suelto
+
+==================================================
+SISTEMA DE CALIDAD Y CONFIANZA
+==================================================
+
+Quiero un sistema que estime calidad y confianza para cada conversión:
+
+- Low
+- Medium
+- High
+
+Debe informar:
+- calidad de entrada
+- cobertura angular
+- si faltan vistas
+- si el fondo perjudica la conversión
+- si conviene usar plantilla asistida
+- si el resultado será mejor como blockout que como malla final
+
+==================================================
+INTEGRACIÓN CON HERRAMIENTAS EXISTENTES DEL MOTOR
+==================================================
+
+Todo resultado debe integrarse con:
+- viewport 3D
+- selección
+- transformación
+- edición de vértices/aristas/caras
+- retopología
+- sculpt futuro
+- materiales
+- guardado de escena
+
+==================================================
+FUNCIONES Y CLASES QUE QUIERO DEFINIDAS
+==================================================
+
+Quiero diseño o pseudocódigo para estas funciones:
+
+- InitializeConversionSystem()
+- CreateSketchSession()
+- ImportSingleImage()
+- ImportMultiViewImages()
+- ImportPhotoSet()
+- ImportVideoForReconstruction()
+- StartSceneScanSession()
+- PreprocessSketch()
+- PreprocessImage()
+- ExtractSilhouette()
+- ExtractKeyFeatures()
+- AnalyzeInputQuality()
+- ClassifyIntent()
+- SuggestTemplate()
+- BuildSingleViewProxy()
+- BuildMultiViewProxy()
+- ReconstructFromPhotoSet()
+- ReconstructFromVideoFrames()
+- ReconstructSceneFromCaptures()
+- GenerateTemplateFromIntent()
+- FuseReconstructionWithTemplate()
+- CleanupGeneratedMesh()
+- FillHolesIfSafe()
+- ConvertToEditableMesh()
+- ConvertToEditableScene()
+- GeneratePreview()
+- AcceptConversion()
+- RejectConversion()
+- SaveConversionSession()
+
+==================================================
+REGLAS IMPORTANTES
+==================================================
+
+1. Si hay una sola imagen o un solo dibujo:
+- tratar el resultado como aproximación o blockout editable
+
+2. Si hay múltiples vistas:
+- aumentar confianza
+- intentar reconstrucción más coherente
+
+3. Si hay fotos reales o video:
+- usar pipeline de reconstrucción/fotogrametría
+
+4. Si el objetivo es una habitación o entorno:
+- usar pipeline de escena, no de objeto aislado
+
+5. Si el sistema no está seguro:
+- sugerir plantilla base o blockout
+- no hacer destrucción automática rara
+
+6. Nunca prometer exactitud perfecta si faltan vistas
+
+==================================================
+ERRORES DE ARQUITECTURA QUE QUIERO EVITAR
+==================================================
+
+Explícame también qué errores evitar:
+- mezclar fotogrametría con edición de malla en la misma clase
+- meter todas las conversiones en una sola función
+- no distinguir objeto vs escena
+- no distinguir single view vs multi-view
+- no distinguir sketch vs imagen real vs video
+- convertir directamente a malla final sin cleanup
+- no guardar metadata de reconstrucción
+- no separar preview de commit final
+
+==================================================
+PREPARACIÓN NECESARIA EN MI MOTOR
+==================================================
+
+Dime qué debo tener listo antes de implementar esto:
+- EditableMesh robusto
+- SceneGraph editable
+- raycast
+- selección
+- importación de imágenes y video
+- procesamiento async o jobs
+- sistema de preview
+- serialización
+- paneles UI
+- sistema de comandos
+- herramientas de cleanup
+- sistema de materiales base
+
+==================================================
+QUÉ ESPERO COMO RESPUESTA
+==================================================
+
+Quiero que generes:
+
+1. arquitectura completa del sistema
+2. diagrama lógico de módulos
+3. responsabilidades por clase
+4. flujo por pipeline
+5. pseudocódigo o código base
+6. estrategia para sketch único
+7. estrategia para multi-sketch
+8. estrategia para imagen única
+9. estrategia para multi-image
+10. estrategia para fotos reales
+11. estrategia para video a 3D
+12. estrategia para escaneo de escena
+13. diseño del sistema de confianza
+14. integración con mi motor existente
+15. recomendaciones de rendimiento
+16. errores comunes a evitar
+17. orden recomendado de implementación
+
+==================================================
+NIVEL DE RESPUESTA
+==================================================
+
+Respuesta técnica, profunda, modular, pensada para producción real.
+No simplifiques esto a una sola función si eso sería una mala práctica.
+Si una parte debe ser un subsistema independiente, dilo claramente.
+Quiero la solución correcta.

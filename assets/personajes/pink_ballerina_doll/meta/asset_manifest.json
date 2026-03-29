@@ -1,0 +1,29 @@
+{
+  "asset_id": "pink_ballerina_doll",
+  "asset_path": "01_Personajes/pink_ballerina_doll",
+  "category": "01_Personajes",
+  "preferred_runtime_entry": "01_Personajes/pink_ballerina_doll/geometry/glb/pink+ballerina+doll+3d+model.glb",
+  "duplicate_variants_detected": [],
+  "groups": {
+    "source_archives": [
+      "01_Personajes/pink_ballerina_doll/source_archives/pink+ballerina+doll+3d+model.zip"
+    ],
+    "geometry_glb": [
+      "01_Personajes/pink_ballerina_doll/geometry/glb/pink+ballerina+doll+3d+model.glb"
+    ],
+    "geometry_fbx": [],
+    "geometry_stl": [
+      "01_Personajes/pink_ballerina_doll/geometry/stl/pink+ballerina+doll+3d+model.stl"
+    ],
+    "textures": [],
+    "imports": []
+  },
+  "counts": {
+    "source_archives": 1,
+    "geometry_glb": 1,
+    "geometry_fbx": 0,
+    "geometry_stl": 1,
+    "textures": 0,
+    "imports": 0
+  }
+}

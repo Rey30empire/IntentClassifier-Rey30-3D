@@ -1,0 +1,26 @@
+{
+  "scene_id": "car-game",
+  "title": "Car Game",
+  "scene_path": "05_Escenas_ThreeJS/01_Juegos/car-game",
+  "category": "05_Escenas_ThreeJS/01_Juegos",
+  "scene_kind": "gameplay",
+  "runtime": "threejs",
+  "source_type": "procedural_code",
+  "launch": {
+    "build_mode": "static-html",
+    "package_json": null,
+    "entry_html": "05_Escenas_ThreeJS/01_Juegos/car-game/index.html",
+    "primary_script": null,
+    "npm_scripts": {},
+    "recommended_command": "open 05_Escenas_ThreeJS/01_Juegos/car-game/index.html"
+  },
+  "stats": {
+    "code_files": 1,
+    "binary_assets": 0
+  },
+  "binary_assets": [],
+  "code_files": [
+    "05_Escenas_ThreeJS/01_Juegos/car-game/index.html"
+  ],
+  "uses_external_asset_catalog": false
+}
