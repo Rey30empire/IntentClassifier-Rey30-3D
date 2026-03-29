@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
+    "prebuild": "prisma generate",
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "eslint .",
+    "postinstall": "prisma generate",
     "assets:organize": "node scripts/organize-lexury-library.mjs",
     "assets:sync": "node scripts/sync-assets.mjs",
     "db:migrate:deploy": "prisma migrate deploy",
