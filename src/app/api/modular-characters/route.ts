@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
@@ -7,6 +6,7 @@ import {
   ensureCharacterStorage,
   getFileExtension,
   isSupportedModelExtension,
+  resolveStorageChildRef,
   sanitizePathSegment,
   saveUploadedFile,
   writeCharacterMetadataSnapshot,
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
     const slug = await buildUniqueSlug(sessionResult.sessionKey, parsedAnalysis.data.name)
     const safeFileName = `${slug}${getFileExtension(file.name)}`
     const storage = await ensureCharacterStorage(characterId, slug)
-    const sourceFilePath = path.join(storage.originalDir, safeFileName)
+    const sourceFilePath = resolveStorageChildRef(storage.originalDir, safeFileName)
 
     await saveUploadedFile(file, sourceFilePath)
 
@@ -217,6 +217,7 @@ export async function POST(request: NextRequest) {
     await writeCharacterMetadataSnapshot(storage.metadataPath, {
       character: mapCharacterSummary(createdCharacter),
       uploadedAt: new Date().toISOString(),
+      storageProvider: process.env.MODULAR_LAB_STORAGE_PROVIDER ?? (process.env.NETLIFY ? 'blobs' : 'local'),
     })
 
     void getDb().auditLog

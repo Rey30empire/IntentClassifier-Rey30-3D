@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { requireClientSessionKey } from '@/lib/persistence/server-session'
@@ -6,6 +5,7 @@ import { partBatchManifestSchema } from '@/lib/modular-lab/contracts'
 import {
   ensureCharacterStorage,
   removeFileIfExists,
+  resolveStorageChildRef,
   saveBufferFile,
   writeCharacterMetadataSnapshot,
 } from '@/lib/modular-lab/storage'
@@ -101,8 +101,11 @@ export async function POST(request: NextRequest, context: CharacterRouteContext)
         continue
       }
 
-      const partFolder = path.join(storage.partsDir, assignment.partKey)
-      const destinationPath = path.join(partFolder, assignment.fileName)
+      const destinationPath = resolveStorageChildRef(
+        storage.partsDir,
+        assignment.partKey,
+        assignment.fileName
+      )
       const buffer = new Uint8Array(await fileEntry.arrayBuffer())
       await saveBufferFile(buffer, destinationPath)
 
@@ -173,7 +176,7 @@ export async function POST(request: NextRequest, context: CharacterRouteContext)
       },
     })
 
-    await writeCharacterMetadataSnapshot(path.join(storage.root, 'metadata.json'), {
+    await writeCharacterMetadataSnapshot(storage.metadataPath, {
       character: mapCharacterSummary(refreshedCharacter),
       exportedParts: refreshedCharacter.parts.length,
       updatedAt: new Date().toISOString(),

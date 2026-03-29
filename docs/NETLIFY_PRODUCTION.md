@@ -45,18 +45,22 @@ Las rutas de presets, favoritos, escenas y modular lab requieren `DATABASE_URL` 
 
 ### 2. Almacenamiento persistente del Modular Lab
 
-El laboratorio modular guarda archivos en disco local bajo `storage/modular-characters` usando `node:fs`.
+El laboratorio modular ahora ya tiene una capa de storage compatible con Netlify:
 
 Archivo clave:
 
 - `src/lib/modular-lab/storage.ts`
 
-Ese enfoque no es suficiente para produccion en Netlify porque necesitamos almacenamiento compartido y persistente entre deploys y ejecuciones.
+Comportamiento actual:
 
-Migracion recomendada:
+- en local usa disco (`storage/modular-characters`)
+- en Netlify usa `Netlify Blobs`
+- fuera de Netlify puede apuntar a Blobs si defines:
+  - `NETLIFY_BLOBS_SITE_ID`
+  - `NETLIFY_BLOBS_TOKEN`
+  - `MODULAR_LAB_STORAGE_PROVIDER=blobs`
 
-- Netlify Blobs para metadatos y archivos ligeros
-- S3 compatible para binarios grandes (`.fbx`, `.obj`, `.glb`, `.gltf`, zips, previews)
+Esto resuelve la persistencia del Modular Lab para personajes, partes y ZIPs dentro del limite actual de uploads del modulo.
 
 ### 3. Peso de la biblioteca 3D
 
@@ -80,4 +84,4 @@ Recomendacion:
 
 ## Nota operativa
 
-Mientras el proyecto siga dependiendo de escritura local en disco para el laboratorio modular y de una biblioteca 3D multi-GB dentro del repo, Netlify no queda realmente listo para produccion completa aunque el frontend principal llegue a publicar.
+El bloqueo principal que sigue siendo serio para Netlify ya no es el Modular Lab, sino la biblioteca 3D multi-GB que sigue dentro del repo y del paquete publicado. Para produccion final conviene externalizar esa biblioteca a storage/CDN.

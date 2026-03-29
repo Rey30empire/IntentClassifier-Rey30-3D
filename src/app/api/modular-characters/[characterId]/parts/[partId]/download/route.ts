@@ -1,8 +1,11 @@
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { requireClientSessionKey } from '@/lib/persistence/server-session'
+import {
+  getStoredContentType,
+  getStoredFileName,
+  readFileBuffer,
+} from '@/lib/modular-lab/storage'
 import { findScopedCharacter } from '@/lib/modular-lab/server'
 
 export const dynamic = 'force-dynamic'
@@ -63,12 +66,12 @@ export async function GET(request: NextRequest, context: CharacterPartRouteConte
       )
     }
 
-    const fileBuffer = await fs.readFile(part.filePath)
+    const fileBuffer = await readFileBuffer(part.filePath)
     return new NextResponse(fileBuffer, {
       status: 200,
       headers: {
-        'Content-Type': 'model/gltf-binary',
-        'Content-Disposition': `attachment; filename="${path.basename(part.filePath)}"`,
+        'Content-Type': getStoredContentType(part.fileFormat),
+        'Content-Disposition': `attachment; filename="${getStoredFileName(part.filePath)}"`,
       },
     })
   } catch (error) {

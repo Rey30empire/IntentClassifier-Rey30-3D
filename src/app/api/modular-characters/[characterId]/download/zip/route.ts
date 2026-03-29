@@ -1,8 +1,12 @@
-import path from 'node:path'
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { requireClientSessionKey } from '@/lib/persistence/server-session'
-import { buildCharacterZipBundle, saveBufferFile } from '@/lib/modular-lab/storage'
+import {
+  buildCharacterZipBundle,
+  getStoredFileName,
+  resolveStorageChildRef,
+  saveBufferFile,
+} from '@/lib/modular-lab/storage'
 import { findScopedCharacter, mapCharacterSummary } from '@/lib/modular-lab/server'
 
 export const dynamic = 'force-dynamic'
@@ -78,12 +82,12 @@ export async function GET(request: NextRequest, context: CharacterRouteContext) 
         exportMode,
         selectedParts: selectedParts.map((part) => part.partKey),
       },
-      originalFileName: path.basename(character.sourceFilePath),
-      originalFilePath: character.sourceFilePath,
+      originalFileName: character.sourceFileName || getStoredFileName(character.sourceFilePath),
+      originalFileRef: character.sourceFilePath,
       partFiles: selectedParts.map((part) => ({
         folderName: part.partKey,
-        fileName: path.basename(part.filePath),
-        filePath: part.filePath,
+        fileName: getStoredFileName(part.filePath),
+        fileRef: part.filePath,
         metadata: part.metadata ?? {
           id: part.id,
           name: part.name,
@@ -92,7 +96,11 @@ export async function GET(request: NextRequest, context: CharacterRouteContext) 
       })),
     })
 
-    const zipStoragePath = path.join(character.storageRoot, 'exports', `${character.slug}-${exportMode}.zip`)
+    const zipStoragePath = resolveStorageChildRef(
+      character.storageRoot,
+      'exports',
+      `${character.slug}-${exportMode}.zip`
+    )
     await saveBufferFile(zipBuffer, zipStoragePath)
 
     await getDb().characterExport.create({
